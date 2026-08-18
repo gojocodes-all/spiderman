@@ -21,9 +21,9 @@ Milestone 2 preserves the accepted Android foundation and core movement, then ad
 
 Swinging/tether traversal, combat, enemies, missions, open-world expansion, and final character art/animation are intentionally **not** implemented. Milestone 2 is accepted; no later milestone has been started.
 
-## Download
+## Release and download
 
-[Download Milestone 2 debug APK](releases/milestone-2/aerial-vanguard-relay-m2-debug.apk)
+[Open the Milestone 2 GitHub release](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-2). The release page is the canonical public download location for the APK; the checked-in checksum and acceptance records remain in this repository.
 
 - Package: `com.gojocodes.aerialvanguard`
 - Version: `0.2.0-m2` (`versionCode 3`)
@@ -31,7 +31,7 @@ Swinging/tether traversal, combat, enemies, missions, open-world expansion, and 
 - SHA-256: `e10051e2992009b867ba5a49a8410861c5de4c734f38a5c85f91ba377013bd7d`
 - Android: API 24 minimum, API 36 target/compile, `arm64-v8a`, landscape
 
-Prior immutable checkpoints remain available: [Milestone 1](releases/milestone-1/aerial-vanguard-relay-m1-debug.apk) and [Milestone 0](releases/milestone-0/aerial-vanguard-relay-m0-debug.apk).
+Prior immutable checkpoints remain available from the [Milestone 1 GitHub release](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-1) and the preserved [Milestone 0 repository artifact](releases/milestone-0/aerial-vanguard-relay-m0-debug.apk).
 
 These are sideloadable debug-signed development builds, not Play Store releases. M0, M1, and M2 have limited user-reported physical validation. On 2026-08-18, the user reported that the M2 build works fine on their physical Android phone and accepted the milestone. No phone model, Android version, per-action results, or performance measurements were supplied or inferred.
 

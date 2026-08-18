@@ -1,5 +1,9 @@
 # Known issues
 
+## Distribution
+
+- M1/M2 source, documentation, checksums, tags, and GitHub release pages are published. The connected repository API cannot ingest APKs from the managed workspace file path without a separately staged binary reference, while Base64 transfer is intentionally prohibited. The two verified local APKs still need normal attachment to their matching GitHub release pages.
+
 Last verified: 2026-08-18
 
 ## Validation limits

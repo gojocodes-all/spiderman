@@ -4,7 +4,7 @@
 
 Every accepted milestone must include:
 
-- a versioned, debug- or release-qualified APK under `releases/milestone-N/`;
+- a versioned, debug- or release-qualified APK preserved under `releases/milestone-N/` in the development repository and published as a GitHub release asset for direct download;
 - a SHA-256 checksum file;
 - package, SDK, ABI, signing, alignment, and archive verification;
 - automated test results;
@@ -12,6 +12,8 @@ Every accepted milestone must include:
 - updated `ASSETS.md`, `KNOWN_ISSUES.md`, and `PERFORMANCE.md`.
 
 Never overwrite an accepted milestone APK. Increase `versionCode`, create a new milestone directory, and preserve the prior artifact.
+
+GitHub release assets are the canonical public APK download channel. Source, checksums, acceptance evidence, and release metadata stay versioned in the repository; the APK must never be encoded as Base64 for transport.
 
 ## M0 — Foundation and Android package smoke test
 

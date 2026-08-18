@@ -52,6 +52,12 @@ On 2026-08-18, the user reported that the Milestone 2 build works fine on their 
 
 The report establishes that the user successfully ran and accepted the M2 build. It does not establish a phone model, Android version, separate results for every traversal action, sustained 30/60 fps, frame pacing, touch latency, thermals, memory use, safe-area behavior, or long-session stability. Those details remain unreported rather than inferred.
 
+## GitHub publication status
+
+On 2026-08-18, the connected GitHub account published the M1 source/documentation, M2 source/documentation, and M2 user-acceptance record to `gojocodes-all/spiderman` as three ordered commits on `main`. It also created the canonical [`milestone-1`](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-1) and [`milestone-2`](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-2) release pages.
+
+The connected repository API cannot read binary files from the managed workspace path, and the user explicitly prohibited Base64 transfer. Therefore the two already-built APKs remain preserved locally and require a normal GitHub release-asset upload through a file-capable client. This is a distribution boundary only; source, checksums, release records, and local APKs are intact.
+
 ## Local setup
 
 1. Install the official Godot 4.6.3 standard editor and matching export templates.

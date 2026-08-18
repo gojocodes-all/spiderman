@@ -17,6 +17,6 @@
 
 The user reported that this M2 build works fine on their physical Android phone. This is a manual user report, not a workspace-connected-device test or a detailed performance/action matrix; device and performance details were not supplied.
 
-[Download the APK](aerial-vanguard-relay-m2-debug.apk) or verify it against [`SHA256SUMS.txt`](SHA256SUMS.txt).
+[Open the Milestone 2 GitHub release](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-2) to attach or download `aerial-vanguard-relay-m2-debug.apk`, then verify it against [`SHA256SUMS.txt`](SHA256SUMS.txt).
 
 See [`docs/M2_ACCEPTANCE.md`](../../docs/M2_ACCEPTANCE.md) for traversal controls, tuning, full evidence, known limits, and the short Android test checklist.
