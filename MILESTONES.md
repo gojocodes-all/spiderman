@@ -59,7 +59,7 @@ Acceptance evidence is in [docs/M1_ACCEPTANCE.md](docs/M1_ACCEPTANCE.md).
 
 ## M2 — Superhero parkour and wall traversal
 
-Status: **implementation, automated acceptance, and Android package complete; user physical-device validation pending**
+Status: **accepted; implementation/package complete and limited user-reported physical-device validation recorded**
 
 Delivered:
 
@@ -80,8 +80,10 @@ Delivered:
 
 Not delivered: swinging/tether traversal, combat, enemies, missions, open-world expansion, production skeletal traversal animation/IK, final art, or final customization.
 
-Acceptance evidence is in [docs/M2_ACCEPTANCE.md](docs/M2_ACCEPTANCE.md). Development is stopped after the M2 APK for user physical-device feedback.
+On 2026-08-18, the user reported that M2 works fine on their physical Android phone and accepted the milestone. This is limited manual user-reported validation, not a detailed traversal/performance matrix; hardware, OS, sustained frame rate, thermals, and per-feature observations were not supplied.
+
+Acceptance evidence is in [docs/M2_ACCEPTANCE.md](docs/M2_ACCEPTANCE.md). Development remains stopped after M2; no swinging work has started.
 
 ## M3 — Swinging/tether traversal (future; not started)
 
-Swinging may begin only after M2 phone feedback is reviewed and major parkour defects are fixed. No combat, missions, progression, final city, or final hero art should depend on traversal until its physical/performance gates pass.
+The user has accepted the M2 phone checkpoint. Swinging remains unstarted and begins only on explicit instruction. No combat, missions, progression, final city, or final hero art should depend on traversal until its later detailed physical/performance gates pass.

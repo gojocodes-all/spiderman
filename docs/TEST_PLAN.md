@@ -97,6 +97,6 @@ The deterministic lab contains 85 total collision features, 32 markers, and 26 p
 
 ## Milestone 2 physical-device gate
 
-Milestone 2 remains pending user physical-device validation. The requested first gate is intentionally short: install/update, launch, confirm the parkour lab renders, and visibly exercise the contextual wall run, vertical traversal, wall jump, vault, mantle, and ledge actions while movement/look/JUMP remain usable together. Detailed frame pacing, thermal, aspect-ratio, and edge-case profiling is deferred until the user requests the later extensive test phase.
+On 2026-08-18, the user reported that the M2 build works fine on their physical Android phone and accepted the milestone. This is limited user-reported validation: the user did not provide a phone/OS, separate action-by-action results, sustained frame pacing, thermal data, or a defect matrix. Detailed frame pacing, thermal, aspect-ratio, and edge-case profiling is deferred until the later extensive-test phase.
 
-Swinging and combat remain blocked until this M2 checkpoint is reviewed. Automated/headless results are not presented as phone performance evidence.
+Swinging and combat remain unstarted. Automated/headless results and the limited user report are not presented as measured phone-performance evidence.

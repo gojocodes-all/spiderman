@@ -19,7 +19,7 @@ Milestone 2 preserves the accepted Android foundation and core movement, then ad
 - separate full Milestone 1 regression and Milestone 2 acceptance processes;
 - a verified API 36 arm64 debug APK with version code 3.
 
-Swinging/tether traversal, combat, enemies, missions, open-world expansion, and final character art/animation are intentionally **not** implemented. Development stops after this milestone for user physical-device feedback.
+Swinging/tether traversal, combat, enemies, missions, open-world expansion, and final character art/animation are intentionally **not** implemented. Milestone 2 is accepted; no later milestone has been started.
 
 ## Download
 
@@ -33,7 +33,7 @@ Swinging/tether traversal, combat, enemies, missions, open-world expansion, and 
 
 Prior immutable checkpoints remain available: [Milestone 1](releases/milestone-1/aerial-vanguard-relay-m1-debug.apk) and [Milestone 0](releases/milestone-0/aerial-vanguard-relay-m0-debug.apk).
 
-These are sideloadable debug-signed development builds, not Play Store releases. M0 and M1 have limited user-reported physical validation. M2 automated/package validation is complete; physical-device validation is pending and is not inferred from headless tests.
+These are sideloadable debug-signed development builds, not Play Store releases. M0, M1, and M2 have limited user-reported physical validation. On 2026-08-18, the user reported that the M2 build works fine on their physical Android phone and accepted the milestone. No phone model, Android version, per-action results, or performance measurements were supplied or inferred.
 
 ## Controls
 

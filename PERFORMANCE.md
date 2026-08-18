@@ -4,7 +4,7 @@ Last updated: 2026-08-18
 
 ## Current evidence
 
-Milestones 0 and 1 have limited user-reported functional validation on an unspecified Android phone, but **no representative device performance numbers**. Milestones 1 and 2 pass deterministic headless physics tests and static Android package checks. None of those results may be presented as an on-device frame-rate claim.
+Milestones 0, 1, and 2 have limited user-reported functional validation on an unspecified Android phone, but **no representative device performance numbers**. Milestones 1 and 2 pass deterministic headless physics tests and static Android package checks. None of those results may be presented as an on-device frame-rate claim.
 
 ## Milestone 1 deterministic evidence
 
@@ -108,4 +108,4 @@ No specific phone models are claimed until devices are actually available.
 
 ## Deferred measurement gate
 
-At the later extensive-test phase, the Milestone 2 traversal baseline should be profiled on physical Android hardware at both a 30 fps cap and a 60 fps target where the phone supports it. That later pass should record CPU/GPU frame time, frame pacing, memory, thermal state, battery behavior, input feel, contextual-action predictability, and quality-tier changes over a repeatable parkour route. The immediate M2 phone gate is only install/launch and visible functional confirmation, as requested by the user. Until measured, LOW/MEDIUM/HIGH/ULTRA rows remain targets rather than claims.
+At the later extensive-test phase, the accepted Milestone 2 traversal baseline should be profiled on physical Android hardware at both a 30 fps cap and a 60 fps target where the phone supports it. That later pass should record CPU/GPU frame time, frame pacing, memory, thermal state, battery behavior, input feel, contextual-action predictability, and quality-tier changes over a repeatable parkour route. Until measured, LOW/MEDIUM/HIGH/ULTRA rows remain targets rather than claims.

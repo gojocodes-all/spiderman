@@ -13,7 +13,9 @@
 - 16 KB ZIP alignment and `0x4000` native LOAD alignment verified for both shared libraries
 - No Android permissions reported by `aapt2 dump permissions`
 - Automated M1 regression and M2 traversal suites passed
-- Physical-device validation pending user feedback
+- Limited user-reported physical-device validation: accepted on 2026-08-18
+
+The user reported that this M2 build works fine on their physical Android phone. This is a manual user report, not a workspace-connected-device test or a detailed performance/action matrix; device and performance details were not supplied.
 
 [Download the APK](aerial-vanguard-relay-m2-debug.apk) or verify it against [`SHA256SUMS.txt`](SHA256SUMS.txt).
 

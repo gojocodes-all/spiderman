@@ -6,10 +6,10 @@ Last verified: 2026-08-18
 
 - **Milestone 0 has limited user-reported physical validation.** The user manually confirmed M0 install, launch, landscape rendering, movement, right-side camera drag, JUMP, BURST, and no immediate crash on a real phone. This is not a workspace-device or automated result, and the phone model/OS/performance data were not reported.
 - **Milestone 1 has limited user-reported physical validation.** The user reported that M1 loaded on a physical Android device, visibly contained the implemented work, and was accepted as passed. No phone/OS details, per-action checklist, sustained performance, or defect observations were supplied.
-- **Milestone 2 has not been run on a physical device.** Its traversal systems are exercised headlessly, but contextual feel, thumb intent, camera readability, graphics, and runtime stability still require the user's real-phone test.
+- **Milestone 2 has limited user-reported physical validation.** The user reported that the M2 build works fine on their physical Android phone and accepted the milestone. No phone/OS details, per-action checklist, sustained performance, or defect observations were supplied.
 - **ADB cannot initialize in this sandbox.** The available ADB process attempts to create `/root/.android`, which is read-only here. This does not invalidate static APK checks, but it prevents one-click deployment from this environment.
 - **No mobile GPU measurement exists.** Headless tests validate scene/script/physics behavior, not Vulkan rendering correctness, thermals, battery use, memory pressure, touch feel, or frame pacing.
-- **Gradle/AAB path is not verified.** The Gradle wrapper itself ran, but Java could not resolve the Android Gradle Plugin through the sandbox network. Milestones 0 and 1 therefore use Godot's official prebuilt debug APK template. Play submission requires a separately validated Gradle AAB build.
+- **Gradle/AAB path is not verified.** The Gradle wrapper itself ran, but Java could not resolve the Android Gradle Plugin through the sandbox network. Milestones 0–2 therefore use Godot's official prebuilt debug APK template. Play submission requires a separately validated Gradle AAB build.
 
 ## APK limitations
 
@@ -36,6 +36,6 @@ Last verified: 2026-08-18
 - The three-wall-jump chain budget prevents indefinite close-wall height gain. Progression-based chain extensions, if ever added, require new exploit tests.
 - Traversal debug drawing and HUD are disabled by default and available only in debug builds through F8; there is no on-screen debug button.
 
-## Required next action
+## Next action
 
-Install the Milestone 2 APK on the same Android phone and perform the short visible-action checklist in [docs/M2_ACCEPTANCE.md](docs/M2_ACCEPTANCE.md). Report whether it loads, whether each parkour action is present/usable, and any obvious stuck state, clipping, camera failure, or crash. Detailed hardware/performance testing is intentionally deferred. Do not begin swinging until this feedback is reviewed.
+Milestone 2 is accepted on the basis of the user's limited phone report. Detailed hardware/performance testing remains intentionally deferred. Do not begin swinging until the user explicitly starts the next milestone.

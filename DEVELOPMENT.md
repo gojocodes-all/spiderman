@@ -44,6 +44,14 @@ On 2026-08-18, the user reported manually testing Milestone 1 on a physical Andr
 
 The report validates application loading and the user's visual confirmation/acceptance of the Milestone 1 implementation. It does not establish results for every movement edge case, sustained frame rate, touch latency, device thermals, memory, phone model, Android version, safe areas, or long-session stability. Those details remain unreported rather than inferred.
 
+## User-reported physical-device validation — Milestone 2
+
+On 2026-08-18, the user reported that the Milestone 2 build works fine on their physical Android phone and requested publication of M1 and M2. The user accepted Milestone 2.
+
+**This is limited USER-REPORTED PHYSICAL-DEVICE VALIDATION. It is not an automated test, emulator result, workspace-connected-device test, detailed parkour checklist, or performance profile.**
+
+The report establishes that the user successfully ran and accepted the M2 build. It does not establish a phone model, Android version, separate results for every traversal action, sustained 30/60 fps, frame pacing, touch latency, thermals, memory use, safe-area behavior, or long-session stability. Those details remain unreported rather than inferred.
+
 ## Local setup
 
 1. Install the official Godot 4.6.3 standard editor and matching export templates.

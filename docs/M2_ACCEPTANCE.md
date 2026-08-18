@@ -2,7 +2,7 @@
 
 Date: 2026-08-18 UTC
 
-Status: **implementation, automated acceptance, and Android package complete; user physical-device validation pending**
+Status: **accepted; implementation/package complete and limited user-reported physical-device validation recorded**
 
 Artifact: `releases/milestone-2/aerial-vanguard-relay-m2-debug.apk`
 
@@ -95,17 +95,10 @@ All values are centralized in `game/data/traversal/default_traversal_tuning.tres
 
 ADB cannot initialize its configuration directory in this managed workspace, so no workspace-connected phone run is claimed.
 
-## Short physical-device check requested
+## User-reported physical-device validation
 
-The user has chosen to defer extensive testing. For this milestone, please perform only this visible functional pass:
+On 2026-08-18, the user reported that this Milestone 2 build works fine on their physical Android phone and accepted the milestone.
 
-1. Install/update and launch; confirm landscape, the parkour lab, virtual stick, right-side look, JUMP, SPRINT, and BURST appear and remain responsive.
-2. Sprint-jump diagonally toward the long marked wall; confirm a horizontal wall run starts, continues along the wall, and falls cleanly at its end.
-3. Tap JUMP during that wall run; confirm a readable jump away from the wall.
-4. Run/jump directly toward the tall marked wall; confirm a brief upward run/climb that ends rather than climbing forever.
-5. Sprint into the low barriers and pipe lane; confirm contextual vaults preserve forward flow.
-6. Jump toward the medium roof edge; confirm a mantle reaches the top without passing through it.
-7. Fall toward a marked clear ledge while holding toward it; confirm hang, JUMP-to-climb, hold-away-to-drop, and away+JUMP behavior.
-8. While doing any action, keep moving with the left thumb and drag the camera with the right; confirm neither touch cancels the other and the camera remains readable in the alley.
+**This is limited USER-REPORTED PHYSICAL-DEVICE VALIDATION. It is not an automated test, emulator result, workspace-connected-device test, detailed traversal checklist, or performance profile.**
 
-Please report only whether the build loads and whether these actions are visibly present/usable, plus any obvious stuck state, clipping, camera failure, or crash. Detailed performance and edge-case testing remains deferred. Do not begin swinging until this feedback is reviewed.
+The report establishes that the user successfully ran and accepted M2. It does not establish the phone model, Android version, separate results for every parkour action, sustained 30/60 fps, touch latency, thermals, memory behavior, or long-session stability. Those details remain unreported rather than inferred. Detailed testing is deferred, and no swinging work has started.
