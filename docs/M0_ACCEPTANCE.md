@@ -43,13 +43,23 @@ Headless main-scene result:
 
 This validates project parsing, scene composition, procedural world creation, collision/physics initialization, input routing, locomotion, jump, burst, and clean test exit in the available Linux environment.
 
-## Explicitly not accepted yet
+## User-reported physical-device validation
 
-- APK installation and launch on a real phone;
-- Vulkan driver/device compatibility;
-- physical multitouch behavior;
-- audio, lifecycle, safe-area, and haptic behavior;
+On 2026-08-18, the user reported manually downloading this Milestone 0 APK from the GitHub repository, installing it, and running it on a real Android phone.
+
+**Evidence classification: USER-REPORTED PHYSICAL-DEVICE VALIDATION. This was not an automated test, emulator run, or workspace-connected-device run.**
+
+The user confirmed APK installation, application launch, landscape rendering, virtual movement controls, player movement, right-side touch camera control, the JUMP button, the BURST button, and no immediate crash during the initial test.
+
+Milestone 0 is physically validated for exactly those reported behaviors.
+
+## Explicitly not established by that report
+
+- phone model, SoC/GPU, RAM, Android/API version, or display refresh rate;
+- sustained Vulkan-driver stability beyond the initial test;
+- complex simultaneous-touch combinations or palm rejection;
+- audio, lifecycle, suspend/resume, safe-area, and haptic behavior;
 - memory, battery, heat, frame pacing, or sustained fps;
 - Google Play AAB/release signing.
 
-Milestone 0 is therefore an **Android-capable package checkpoint**, not proof of production device performance.
+Milestone 0 is therefore an **Android-capable package checkpoint with limited user-reported physical validation**, not proof of production device performance.

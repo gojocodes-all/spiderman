@@ -4,30 +4,33 @@ An original third-person mobile superhero game project focused on momentum, aeri
 
 > The GitHub repository is named `spiderman` only because that repository name was requested. This project contains no Spider-Man, Marvel, Insomniac, copied map, ripped asset, copied character, copied animation, logo, dialogue, or code.
 
-## Milestone 0 — Android package smoke test
+## Milestone 1 — Core third-person movement
 
-Milestone 0 deliberately stops at the first validated foundation:
+Milestone 1 preserves the validated Android foundation and adds:
 
-- Godot 4.6.3 Mobile renderer project
-- modular input, movement, camera, player composition, quality, world, and touch UI scripts
-- landscape touch controls plus keyboard/mouse development controls
-- deterministic procedural 16-building test block
-- grounded movement, air control, jump, and a temporary momentum-burst probe
-- Low/Medium/High/Ultra render-scale hooks
-- signed, arm64 Android debug APK targeting API 36
-- automated headless gameplay smoke test
+- centralized data-driven movement and camera tuning;
+- modular semantic movement states and bounded step solving;
+- walk, jog, sprint, acceleration/deceleration, direction changes, jump, gravity, air steering, slopes, stairs, soft/hard landings, and camera-relative facing;
+- smoothed third-person camera with collision, speed response, pitch limits, recentering, touch, mouse, and controller support;
+- independent movement/look touch channels plus JUMP, SPRINT, and temporary BURST buttons;
+- a 59-feature deterministic graybox movement laboratory;
+- automated 30/60 Hz, collision, landing, camera, multitouch, and aspect-ratio acceptance checks;
+- a signed API 36 arm64 debug APK with version code 2.
 
-Swinging, wall traversal, combat, missions, streaming, traffic, pedestrians, final art, and progression are intentionally **not** implemented yet. Those systems must wait for device validation of this foundation.
+Swinging, wall traversal actions, combat, missions, streaming, traffic, pedestrians, final art, and progression are intentionally **not** implemented. Development stops for physical-device movement feedback before swinging begins.
 
 ## Download
 
-[Download Milestone 0 debug APK](releases/milestone-0/aerial-vanguard-relay-m0-debug.apk)
+[Download Milestone 1 debug APK](releases/milestone-1/aerial-vanguard-relay-m1-debug.apk)
 
 - Package: `com.gojocodes.aerialvanguard`
-- Version: `0.0.1-m0` (`versionCode 1`)
-- SHA-256: `138fad0e7185daa3fe929d88df77a41db9267932a54ec209f5a912d21cc217a5`
+- Version: `0.1.0-m1` (`versionCode 2`)
+- Size: 27,808,805 bytes
+- SHA-256: `73653e3e92ac759c019b2d8ab34643827e6881044b28a220af3d6a529bc1f58b`
 
-This is a sideloadable development build signed with a debug key. It is not a Play Store release and has not been run on a physical Android device in this workspace.
+The accepted Milestone 0 artifact remains available separately: [download M0](releases/milestone-0/aerial-vanguard-relay-m0-debug.apk).
+
+These are sideloadable development builds signed with a debug key, not Play Store releases. M0 has limited user-reported physical validation; M1 has not yet been physically tested.
 
 ## Controls
 
@@ -36,7 +39,9 @@ This is a sideloadable development build signed with a debug key. It is not a Pl
 | Move | Left-side virtual stick | WASD |
 | Look | Drag the right side | Hold right mouse and drag |
 | Jump | JUMP button | Space |
-| Momentum probe | BURST button | Shift |
+| Sprint | Hold SPRINT | Shift |
+| Camera recenter | Automatic | C |
+| Temporary momentum probe | BURST button | E |
 
 ## Start developing
 
@@ -49,6 +54,7 @@ Project records:
 - [Original universe](docs/ORIGINAL_UNIVERSE.md)
 - [Research log](docs/RESEARCH.md)
 - [Milestone 0 acceptance](docs/M0_ACCEPTANCE.md)
+- [Milestone 1 acceptance](docs/M1_ACCEPTANCE.md)
 - [Assets and licences](ASSETS.md)
 - [Performance plan](PERFORMANCE.md)
 - [Known issues](KNOWN_ISSUES.md)

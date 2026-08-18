@@ -4,10 +4,11 @@ Last verified: 2026-08-18
 
 ## Validation limits
 
-- **No physical Android runtime test yet.** The APK was built, signed, aligned, inspected, and archive-tested, but this workspace had no connected Android device or emulator available for install/run validation.
+- **Milestone 0 has limited user-reported physical validation.** The user manually confirmed M0 install, launch, landscape rendering, movement, right-side camera drag, JUMP, BURST, and no immediate crash on a real phone. This is not a workspace-device or automated result, and the phone model/OS/performance data were not reported.
+- **Milestone 1 has not been run on a physical device.** Its APK was built and statically verified, and its controller was exercised headlessly, but touch feel, graphics, and runtime stability still require the user's real-phone test.
 - **ADB cannot initialize in this sandbox.** The available ADB process attempts to create `/root/.android`, which is read-only here. This does not invalidate static APK checks, but it prevents one-click deployment from this environment.
 - **No mobile GPU measurement exists.** Headless tests validate scene/script/physics behavior, not Vulkan rendering correctness, thermals, battery use, memory pressure, touch feel, or frame pacing.
-- **Gradle/AAB path is not verified.** The Gradle wrapper itself ran, but Java could not resolve the Android Gradle Plugin through the sandbox network. Milestone 0 therefore uses Godot's official prebuilt debug APK template. Play submission requires a separately validated Gradle AAB build.
+- **Gradle/AAB path is not verified.** The Gradle wrapper itself ran, but Java could not resolve the Android Gradle Plugin through the sandbox network. Milestones 0 and 1 therefore use Godot's official prebuilt debug APK template. Play submission requires a separately validated Gradle AAB build.
 
 ## APK limitations
 
@@ -18,12 +19,15 @@ Last verified: 2026-08-18
 
 ## Gameplay and presentation limits
 
-- Movement, jump, air control, and burst are engineering probes, not final traversal tuning.
+- Milestone 1 movement values are a tested first tuning pass, not final game feel. Physical-device latency and thumb ergonomics may require controlled data-only retuning.
+- The semantic landing states currently affect control/recovery but have no authored landing animations, effects, audio, or haptics because the hero remains a primitive blockout.
+- The automatic step solver is intentionally limited to 0.38 m and uses a conditional surface ray only after wall contact. Thin, moving, curved, or irregular obstacles need physical-device/editor playtesting beyond the deterministic box/stair cases.
+- The temporary BURST control remains for Milestone 0 regression testing; it is not the planned swinging system.
 - Tether/swing, wall run, climbing, parkour, dive, tricks, melee, aerial combat, missions, progression, customization, AI, crowds, traffic, audio, weather, interiors, and streaming are not implemented.
-- The city and avatar are procedural/primitives-only blockouts. They do not represent the production visual target.
+- The movement laboratory and avatar are procedural/primitives-only blockouts. They do not represent the production visual target.
 - Touch control sizing, palm rejection, gesture conflicts, safe areas, accessibility, haptics, and latency need real-device tests.
-- The camera has only basic orbit/follow behavior; obstruction handling and high-speed cinematic behavior are future systems.
+- Camera collision passed deterministic solid-wall tests, but thin geometry, very low ceilings, rapidly alternating obstructions, and device-specific aspect/safe-area behavior still need hands-on review.
 
 ## Required next action
 
-Before Milestone 1, run the M0 APK on at least two physical Android tiers, record install/launch/resume/orientation/touch results, capture sustained CPU/GPU/frame-time/thermal data, and update `PERFORMANCE.md` and this file.
+Install the Milestone 1 APK on the same Android phone used for M0 and test the specific checklist in [docs/M1_ACCEPTANCE.md](docs/M1_ACCEPTANCE.md). Report feel/collision/camera defects and, if available, phone model, Android version, quality tier, approximate fps stability, and heat after a sustained run. Do not begin swinging until that feedback is reviewed.

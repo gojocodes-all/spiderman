@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ThirdPersonCameraTuning" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/camera/third_person_camera_tuning.gd" id="1_camera"]
+
+[resource]
+script = ExtResource("1_camera")
+resource_name = "Default Mobile Third Person Camera"

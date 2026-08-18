@@ -15,6 +15,16 @@ Every imported visual, animation, audio, map, font, or code-bearing asset must b
 
 No third-party city model, character, texture, animation, sound, map, or commercial marketplace asset is used in Milestone 0.
 
+## Assets used in Milestone 1
+
+| Asset name | Source | Creator | Licence | Attribution requirements | Cost | Where it is used | Modified |
+|---|---|---|---|---|---|---|---|
+| Movement traversal laboratory | [`movement_traversal_lab.gd`](game/scripts/world/movement_traversal_lab.gd) | Aerial Vanguard project | Original project work; no third-party asset | None | Free/in-house | M1 flat lanes, alleys, ramps, stairs, rooftops, walls, gaps, narrow platforms, pipes, collision bays | Generated at runtime from original code and Godot primitives |
+| Movement and camera tuning resources | [`game/data/movement/`](game/data/movement/) | Aerial Vanguard project | Original project work; no third-party asset | None | Free/in-house | M1 player and camera configuration | Authored for M1; data-only resources |
+| Godot Engine Android runtime and export template, M1 package | [Godot 4.6.3](https://godotengine.org/article/maintenance-release-godot-4-6-3/) | Godot Engine contributors | MIT, with separately licensed bundled third-party components | Preserve applicable copyright and licence notices; see `THIRD_PARTY_NOTICES.md` | Free | Engine runtime inside the M1 APK | Project data packaged into the unmodified official debug template |
+
+Milestone 1 imports no third-party model, texture, material, animation, sound, map, logo, or marketplace pack. The M0 original icon and primitive Relay blockout remain in use unchanged.
+
 ## Free candidates researched but not imported
 
 These are candidates, not approvals. Record the exact asset/download/version and recheck its page on the import date.

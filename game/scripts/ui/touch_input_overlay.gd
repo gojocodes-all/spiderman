@@ -11,6 +11,7 @@ var _last_look_position := Vector2.ZERO
 var _joystick_radius := 76.0
 
 var _jump_button: Button
+var _sprint_button: Button
 var _burst_button: Button
 
 
@@ -21,6 +22,11 @@ func _ready() -> void:
 	_create_action_buttons()
 	_reset_move_origin()
 	queue_redraw()
+
+
+func _exit_tree() -> void:
+	if _input_router:
+		_input_router.clear_touch_input()
 
 
 func bind(input_router: PlayerInputRouter, camera_rig: ThirdPersonCameraRig) -> void:
@@ -95,14 +101,14 @@ func _create_hud() -> void:
 	add_child(title)
 
 	var status := Label.new()
-	status.text = "M0 ANDROID PACKAGE SMOKE  •  PROCEDURAL BLOCKOUT  •  NO EXTERNAL ART"
+	status.text = "M1 CORE MOVEMENT LAB  •  ORIGINAL PROCEDURAL GRAYBOX  •  NO EXTERNAL ART"
 	status.position = Vector2(30.0, 52.0)
 	status.add_theme_font_size_override("font_size", 13)
 	status.add_theme_color_override("font_color", Color(0.75, 0.8, 0.86, 0.88))
 	add_child(status)
 
 	var help := Label.new()
-	help.text = "MOVE  left thumb / WASD     LOOK  right drag / RMB     JUMP  Space     BURST  Shift"
+	help.text = "MOVE  left thumb / WASD   LOOK  right drag / RMB   JUMP  Space   SPRINT  Shift   BURST  E"
 	help.anchor_top = 1.0
 	help.anchor_bottom = 1.0
 	help.offset_left = 28.0
@@ -116,9 +122,12 @@ func _create_hud() -> void:
 
 func _create_action_buttons() -> void:
 	_jump_button = _make_action_button("JUMP", Vector2(-142.0, -126.0), Vector2(-28.0, -70.0))
-	_burst_button = _make_action_button("BURST", Vector2(-260.0, -88.0), Vector2(-154.0, -36.0))
+	_burst_button = _make_action_button("BURST", Vector2(-268.0, -90.0), Vector2(-158.0, -38.0))
+	_sprint_button = _make_action_button("SPRINT", Vector2(-390.0, -90.0), Vector2(-280.0, -38.0))
 	_jump_button.button_down.connect(_request_jump)
 	_burst_button.button_down.connect(_request_burst)
+	_sprint_button.button_down.connect(_set_sprint.bind(true))
+	_sprint_button.button_up.connect(_set_sprint.bind(false))
 
 
 func _make_action_button(label_text: String, offset_a: Vector2, offset_b: Vector2) -> Button:
@@ -148,14 +157,20 @@ func _request_burst() -> void:
 		_input_router.request_touch_burst()
 
 
+func _set_sprint(held: bool) -> void:
+	if _input_router:
+		_input_router.set_touch_sprint(held)
+
+
 func _point_over_action_buttons(point: Vector2) -> bool:
-	for button in [_jump_button, _burst_button]:
+	for button in [_jump_button, _sprint_button, _burst_button]:
 		if button and Rect2(button.global_position, button.size).has_point(point):
 			return true
 	return false
 
 
 func _on_resized() -> void:
+	_joystick_radius = clampf(minf(size.x, size.y) * 0.105, 62.0, 92.0)
 	if _move_touch_id == -1:
 		_reset_move_origin()
 	queue_redraw()
@@ -163,3 +178,17 @@ func _on_resized() -> void:
 
 func _reset_move_origin() -> void:
 	_move_origin = Vector2(size.x * 0.15, size.y * 0.76)
+
+
+func debug_layout_snapshot(viewport_size: Vector2) -> Dictionary:
+	return {
+		"move_center": Vector2(viewport_size.x * 0.15, viewport_size.y * 0.76),
+		"move_radius": clampf(minf(viewport_size.x, viewport_size.y) * 0.105, 62.0, 92.0),
+		"jump": Rect2(viewport_size + Vector2(-142.0, -126.0), Vector2(114.0, 56.0)),
+		"burst": Rect2(viewport_size + Vector2(-268.0, -90.0), Vector2(110.0, 52.0)),
+		"sprint": Rect2(viewport_size + Vector2(-390.0, -90.0), Vector2(110.0, 52.0)),
+	}
+
+
+func debug_touch_ids() -> Vector2i:
+	return Vector2i(_move_touch_id, _look_touch_id)

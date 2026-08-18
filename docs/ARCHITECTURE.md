@@ -7,9 +7,13 @@ The player scene is a composition root, not a giant controller. Device input bec
 ```mermaid
 flowchart TD
     A["Touch / keyboard / gamepad"] --> B["PlayerInputRouter"]
-    B --> C["RelayAvatar composition"]
+    B --> B2["Reusable PlayerInputSnapshot"]
+    B2 --> C["RelayAvatar composition"]
     C --> D["GroundAirMovement"]
     C --> E["ThirdPersonCameraRig"]
+    K["MovementTuning resource"] --> D
+    D --> L["MovementStateMachine"]
+    D --> M["StepUpSolver"]
     D --> F["CharacterBody3D"]
     G["QualityManager"] --> H["Viewport quality"]
     I["ProceduralCityBlockout"] --> J["Collision and test anchors"]
@@ -19,14 +23,18 @@ flowchart TD
 
 | Module | Owns | Must not own |
 |---|---|---|
-| `PlayerInputRouter` | Action sampling, touch intent, one-shot requests | Physics, camera transforms, combat rules |
-| `GroundAirMovement` | Ground/air acceleration, gravity, jump, temporary burst | Device events, animation graph, camera |
-| `ThirdPersonCameraRig` | Orbit input and follow presentation | Player locomotion decisions |
+| `PlayerInputRouter` | Keyboard/touch/gamepad sampling into one reusable typed snapshot | Physics, camera transforms, combat rules |
+| `MovementTuning` | Central speeds, response, gravity, slope, step, landing, and rotation values | Device input, live body state |
+| `GroundAirMovement` | Ground/air acceleration, gravity, jump buffer/coyote time, landing detection, temporary burst | Device events, animation graph, camera |
+| `MovementStateMachine` | Semantic locomotion/air/landing states and recovery windows | Velocity integration, input sampling |
+| `StepUpSolver` | Wall-contact-gated, height-bounded step validation | General parkour, mantling, arbitrary teleportation |
+| `ThirdPersonCameraRig` | Orbit/follow, collision, recentering, speed response, input presentation | Player locomotion decisions |
 | `RelayAvatar` | Module composition and physics tick ordering | Future missions, save data, UI construction |
 | `QualityManager` | Quality-tier selection and viewport knobs | Per-feature gameplay logic |
-| `TouchInputOverlay` | Touch regions, virtual stick, action buttons | Movement simulation |
-| `ProceduralCityBlockout` | Deterministic test collision/geometry | Production streaming or mission state |
-| `SmokeTestRunner` | Acceptance probes and process exit status | Shipping gameplay behavior |
+| `TouchInputOverlay` | Independent touch IDs, virtual stick, drag surface, action buttons | Movement simulation |
+| `ProceduralCityBlockout` | Preserved Milestone 0 package-smoke collision/geometry | Production streaming or mission state |
+| `MovementTraversalLab` | Purpose-tagged Milestone 1 graybox and deterministic markers | Production city layout or decoration |
+| `Milestone1TestRunner` | Runtime movement/camera/input acceptance and process exit status | Shipping gameplay behavior |
 
 ## Planned domain boundaries
 

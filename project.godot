@@ -1,12 +1,12 @@
-; Aerial Vanguard: Relay — Milestone 0 Android smoke project.
+; Aerial Vanguard: Relay — Milestone 1 core movement laboratory.
 ; This file is intentionally text-only so the project can be reviewed without the editor.
 config_version=5
 
 [application]
 
 config/name="Aerial Vanguard: Relay"
-config/description="Original mobile superhero traversal game — Milestone 0 Android package smoke test"
-run/main_scene="res://game/scenes/bootstrap/android_smoke_test.tscn"
+config/description="Original mobile superhero game — Milestone 1 core movement laboratory"
+run/main_scene="res://game/scenes/labs/movement_traversal_lab.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://game/art/ui/app_icon.svg"
 boot_splash/bg_color=Color(0.0196078, 0.027451, 0.0431373, 1)

@@ -4,7 +4,28 @@ Last updated: 2026-08-18
 
 ## Current evidence
 
-Milestone 0 has **no representative device performance numbers**. The scene passes deterministic headless physics tests, and the APK passes static Android checks. Those results must not be presented as a mobile frame-rate claim.
+Milestone 0 has limited user-reported functional validation on one unspecified Android phone, but **no representative device performance numbers**. Milestone 1 passes deterministic headless physics tests and static Android package checks. None of those results may be presented as an on-device frame-rate claim.
+
+## Milestone 1 deterministic evidence
+
+The same 1.5-second sprint probe was run through the real player scene at two fixed physics rates:
+
+| Physics rate | Distance |
+|---:|---:|
+| 30 Hz | 16.060 m |
+| 60 Hz | 15.965 m |
+| Absolute difference | 0.095 m (0.59%) |
+
+The final full headless suite completed in 35.23 seconds in this workspace and covered 59 laboratory collision features. That suite duration is a CI/runtime metric, **not** Android CPU/GPU performance evidence.
+
+Movement/camera implementation policies applied in M1:
+
+- the input router reuses one typed snapshot rather than allocating a dictionary every physics tick;
+- acceleration, gravity, state updates, camera smoothing, and rotation use delta-time-aware calculations;
+- the step solver reuses physics-query parameter/result objects and only performs collision/surface probes after the previous slide reported wall contact;
+- `SpringArm3D` owns the camera shape cast instead of a duplicate scripted camera query;
+- procedural graybox materials are cached and shared by color;
+- no production crowds, traffic, animation graph, particles, audio, or streaming cost was added.
 
 ## Product targets
 
@@ -54,3 +75,7 @@ No specific phone models are claimed until devices are actually available.
 - Reflections use the cheapest technique that survives side-by-side review on the target tier.
 - Crowd and traffic simulation must degrade independently from traversal physics.
 - Gameplay physics stays deterministic enough for automated probes; visual secondary motion may scale down.
+
+## Next measurement gate
+
+The Milestone 1 APK must be profiled on physical Android hardware at both a 30 fps cap and a 60 fps target where the phone supports it. Record CPU/GPU frame time, frame pacing, memory, temperature/thermal state, battery behavior, input feel, and any quality-tier changes over a repeatable 15-minute laboratory route. Until then, LOW/MEDIUM/HIGH/ULTRA rows remain targets rather than claims.

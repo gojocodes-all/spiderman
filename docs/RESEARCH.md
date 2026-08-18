@@ -25,6 +25,18 @@ Godot 4.6.3 was the best technically feasible option **in this environment** bec
 
 The production ambition remains high, but the near-term goal is a traversal vertical slice, not premature city-scale content. The engine decision is revisited after representative Android performance data exists.
 
+## Milestone 1 movement and camera findings
+
+| Topic | Primary source | Finding applied to Milestone 1 |
+|---|---|---|
+| Character floor behavior | [Godot `CharacterBody3D`](https://docs.godotengine.org/en/stable/classes/class_characterbody3d.html) | `floor_max_angle`, `floor_snap_length`, `floor_constant_speed`, `floor_stop_on_slope`, `safe_margin`, and `max_slides` are configured from the movement resource rather than scattered constants. |
+| Camera obstruction | [Godot `SpringArm3D`](https://docs.godotengine.org/en/stable/classes/class_springarm3d.html) | A sphere-shaped spring arm, collision margin, player RID exclusion, and `get_hit_length()` provide camera compression and deterministic obstruction evidence. |
+| Predictive body motion | [Godot `PhysicsServer3D.body_test_motion`](https://docs.godotengine.org/en/stable/classes/class_physicsserver3d.html) | The step solver reuses test-motion parameters/results to verify raised clearance without moving blindly through collision. |
+| Motion query parameters/results | [Godot `PhysicsTestMotionParameters3D`](https://docs.godotengine.org/en/stable/classes/class_physicstestmotionparameters3d.html) and [`PhysicsTestMotionResult3D`](https://docs.godotengine.org/en/stable/classes/class_physicstestmotionresult3d.html) | Global start transforms, bounded motion, margins, collision normals/travel, and recovery reporting informed the wall-contact-gated step probe. |
+| Multitouch event identity | [Godot input-event guide](https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html) | Separate `InputEventScreenTouch`/`InputEventScreenDrag` indices are retained for movement and camera so two-thumb input does not cancel across channels. |
+
+The design inference from these APIs was to use the engine's grounded-body and spring-arm systems for broad motion/camera behavior, adding a small explicit step solver only where `move_and_slide()` alone did not satisfy stair acceptance. The solver's 0.38 m limit is game tuning, not a limit imposed by Godot.
+
 ## Rendering strategy derived from research
 
 - Start on the Mobile renderer and establish art direction inside real GPU budgets.

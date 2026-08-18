@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-APK_PATH="${1:-$PROJECT_ROOT/build/android/aerial-vanguard-m0-debug.apk}"
+APK_PATH="${1:-$PROJECT_ROOT/build/android/aerial-vanguard-m1-debug.apk}"
 
 if [[ "$APK_PATH" != /* ]]; then
 	APK_PATH="$PROJECT_ROOT/$APK_PATH"

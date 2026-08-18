@@ -1,9 +1,13 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://game/scripts/player/player_avatar.gd" id="1_avatar"]
 [ext_resource type="Script" path="res://game/scripts/input/player_input_router.gd" id="2_input"]
 [ext_resource type="Script" path="res://game/scripts/movement/ground_air_movement.gd" id="3_move"]
 [ext_resource type="Script" path="res://game/scripts/camera/third_person_camera_rig.gd" id="4_camera"]
+[ext_resource type="Resource" path="res://game/data/movement/default_movement_tuning.tres" id="5_move_tuning"]
+[ext_resource type="Script" path="res://game/scripts/movement/movement_state_machine.gd" id="6_state"]
+[ext_resource type="Script" path="res://game/scripts/movement/step_up_solver.gd" id="7_step"]
+[ext_resource type="Resource" path="res://game/data/movement/default_camera_tuning.tres" id="8_camera_tuning"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 radius = 0.43
@@ -110,11 +114,19 @@ script = ExtResource("2_input")
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("3_move")
+tuning = ExtResource("5_move_tuning")
+
+[node name="StateMachine" type="Node" parent="Movement"]
+script = ExtResource("6_state")
+
+[node name="StepUpSolver" type="Node" parent="Movement"]
+script = ExtResource("7_step")
 
 [node name="CameraRig" type="Node3D" parent="."]
 position = Vector3(0, 0.88, 0)
 rotation_degrees = Vector3(-12, 0, 0)
 script = ExtResource("4_camera")
+tuning = ExtResource("8_camera_tuning")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
 collision_mask = 1
