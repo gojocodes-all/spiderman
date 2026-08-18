@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/bootstrap/android_smoke_test.gd" id="1_boot"]
+[ext_resource type="Script" path="res://game/scripts/core/quality_manager.gd" id="2_quality"]
+[ext_resource type="Script" path="res://game/scripts/world/procedural_city_blockout.gd" id="3_city"]
+[ext_resource type="PackedScene" path="res://game/scenes/player/relay_avatar.tscn" id="4_player"]
+[ext_resource type="Script" path="res://game/scripts/ui/touch_input_overlay.gd" id="5_touch"]
+[ext_resource type="Script" path="res://game/scripts/tests/smoke_test_runner.gd" id="6_test"]
+
+[sub_resource type="Environment" id="Environment_smoke"]
+background_mode = 1
+background_color = Color(0.025, 0.04, 0.065, 1)
+background_energy_multiplier = 0.72
+ambient_light_source = 3
+ambient_light_color = Color(0.28, 0.39, 0.52, 1)
+ambient_light_energy = 0.72
+reflected_light_source = 2
+fog_enabled = true
+fog_light_color = Color(0.16, 0.25, 0.33, 1)
+fog_light_energy = 0.75
+fog_density = 0.004
+
+[node name="AndroidSmokeTest" type="Node3D"]
+script = ExtResource("1_boot")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_smoke")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-51, -28, 0)
+light_color = Color(1, 0.78, 0.58, 1)
+light_energy = 2.2
+shadow_enabled = true
+directional_shadow_max_distance = 110.0
+
+[node name="QualityManager" type="Node" parent="." groups=["quality_manager"]]
+script = ExtResource("2_quality")
+
+[node name="CityBlockout" type="Node3D" parent="."]
+script = ExtResource("3_city")
+
+[node name="RelayAvatar" parent="." instance=ExtResource("4_player")]
+position = Vector3(0, 1.15, 17)
+
+[node name="TouchInputOverlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_touch")
+
+[node name="SmokeTestRunner" type="Node" parent="."]
+script = ExtResource("6_test")

@@ -1,0 +1,36 @@
+; Aerial Vanguard: Relay — Milestone 0 Android smoke project.
+; This file is intentionally text-only so the project can be reviewed without the editor.
+config_version=5
+
+[application]
+
+config/name="Aerial Vanguard: Relay"
+config/description="Original mobile superhero traversal game — Milestone 0 Android package smoke test"
+run/main_scene="res://game/scenes/bootstrap/android_smoke_test.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+config/icon="res://game/art/ui/app_icon.svg"
+boot_splash/bg_color=Color(0.0196078, 0.027451, 0.0431373, 1)
+boot_splash/show_image=false
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/handheld/orientation=0
+window/stretch/mode="canvas_items"
+
+[physics]
+
+3d/default_gravity=22.0
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+renderer/rendering_method.web="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.0196078, 0.027451, 0.0431373, 1)

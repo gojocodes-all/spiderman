@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/player/player_avatar.gd" id="1_avatar"]
+[ext_resource type="Script" path="res://game/scripts/input/player_input_router.gd" id="2_input"]
+[ext_resource type="Script" path="res://game/scripts/movement/ground_air_movement.gd" id="3_move"]
+[ext_resource type="Script" path="res://game/scripts/camera/third_person_camera_rig.gd" id="4_camera"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+radius = 0.43
+height = 1.9
+
+[sub_resource type="StandardMaterial3D" id="Material_suit"]
+albedo_color = Color(0.075, 0.1, 0.14, 1)
+metallic = 0.68
+roughness = 0.27
+
+[sub_resource type="StandardMaterial3D" id="Material_energy"]
+albedo_color = Color(0.12, 0.74, 0.71, 1)
+metallic = 0.32
+roughness = 0.21
+emission_enabled = true
+emission = Color(0.18, 0.92, 0.86, 1)
+emission_energy_multiplier = 2.15
+
+[sub_resource type="StandardMaterial3D" id="Material_accent"]
+albedo_color = Color(0.95, 0.47, 0.15, 1)
+metallic = 0.44
+roughness = 0.31
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("Material_suit")
+radius = 0.42
+height = 1.8
+radial_segments = 12
+rings = 4
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+material = SubResource("Material_suit")
+radius = 0.43
+height = 0.86
+radial_segments = 12
+rings = 6
+
+[sub_resource type="BoxMesh" id="BoxMesh_visor"]
+material = SubResource("Material_energy")
+size = Vector3(0.56, 0.17, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bracer"]
+material = SubResource("Material_accent")
+size = Vector3(0.2, 0.58, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rail"]
+material = SubResource("Material_energy")
+size = Vector3(0.07, 0.5, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_spine"]
+material = SubResource("Material_accent")
+size = Vector3(0.12, 0.72, 0.18)
+
+[node name="RelayAvatar" type="CharacterBody3D"]
+collision_layer = 1
+collision_mask = 1
+floor_max_angle = 0.872665
+script = ExtResource("1_avatar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape_player")
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="VisualRoot"]
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(0, 1.1, 0)
+scale = Vector3(1, 1.08, 0.94)
+mesh = SubResource("SphereMesh_head")
+
+[node name="Visor" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(0, 1.14, -0.4)
+mesh = SubResource("BoxMesh_visor")
+
+[node name="LeftBracer" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(-0.54, 0.05, -0.02)
+rotation_degrees = Vector3(0, 0, -8)
+mesh = SubResource("BoxMesh_bracer")
+
+[node name="RightBracer" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(0.54, 0.05, -0.02)
+rotation_degrees = Vector3(0, 0, 8)
+mesh = SubResource("BoxMesh_bracer")
+
+[node name="LeftEnergyRail" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(-0.64, 0.05, -0.15)
+rotation_degrees = Vector3(0, 0, -8)
+mesh = SubResource("BoxMesh_rail")
+
+[node name="RightEnergyRail" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(0.64, 0.05, -0.15)
+rotation_degrees = Vector3(0, 0, 8)
+mesh = SubResource("BoxMesh_rail")
+
+[node name="SpineFin" type="MeshInstance3D" parent="VisualRoot"]
+position = Vector3(0, 0.15, 0.43)
+rotation_degrees = Vector3(-8, 0, 0)
+mesh = SubResource("BoxMesh_spine")
+
+[node name="InputRouter" type="Node" parent="."]
+script = ExtResource("2_input")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("3_move")
+
+[node name="CameraRig" type="Node3D" parent="."]
+position = Vector3(0, 0.88, 0)
+rotation_degrees = Vector3(-12, 0, 0)
+script = ExtResource("4_camera")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
+collision_mask = 1
+spring_length = 6.6
+margin = 0.18
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]
+current = true
+fov = 70.0
+near = 0.08

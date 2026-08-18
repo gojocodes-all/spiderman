@@ -1,0 +1,20 @@
+# Godot editor/import state
+/.godot/
+
+# Generated Android Gradle template and local build outputs
+/android/
+/build/
+/.gradle/
+
+# Signing material must never be committed
+*.keystore
+*.jks
+*.idsig
+
+# Logs and local temporary files
+*.log
+*.tmp
+
+# APKs are published only as named milestone artifacts.
+*.apk
+!/releases/**/*.apk
