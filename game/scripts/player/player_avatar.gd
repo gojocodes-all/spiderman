@@ -4,6 +4,8 @@ extends CharacterBody3D
 @onready var input_router: PlayerInputRouter = $InputRouter
 @onready var movement_component: GroundAirMovement = $Movement
 @onready var movement_state_machine: MovementStateMachine = $Movement/StateMachine
+@onready var traversal_component: ParkourTraversal = $Traversal
+@onready var traversal_state_machine: TraversalStateMachine = $Traversal/StateMachine
 @onready var camera_rig: ThirdPersonCameraRig = $CameraRig
 @onready var visual_root: Node3D = $VisualRoot
 
@@ -15,26 +17,43 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var snapshot: PlayerInputSnapshot = input_router.consume_snapshot()
 	var wish_direction := camera_rig.world_direction_from_input(snapshot.move)
-	movement_component.simulate(
+	var traversal_owns_motion := traversal_component.simulate(
 		self,
 		wish_direction,
 		snapshot.jump_pressed,
 		snapshot.sprint_held,
-		snapshot.walk_held,
-		snapshot.burst_pressed,
+		movement_component.tuning.gravity,
 		delta
 	)
-	_face_wish_direction(wish_direction, delta)
+	if not traversal_owns_motion:
+		movement_component.simulate(
+			self,
+			wish_direction,
+			snapshot.jump_pressed,
+			snapshot.sprint_held,
+			snapshot.walk_held,
+			snapshot.burst_pressed,
+			delta
+		)
+	var facing_direction := traversal_component.facing_direction() if traversal_component.owns_facing() else wish_direction
+	_face_wish_direction(facing_direction, delta)
+	_update_traversal_pose(delta)
 	camera_rig.set_motion_context(
 		Vector3(velocity.x, 0.0, velocity.z),
 		wish_direction,
 		snapshot.move.length()
+	)
+	camera_rig.set_traversal_context(
+		traversal_component.state_name(),
+		traversal_component.current_travel_direction,
+		traversal_component.current_wall_normal
 	)
 
 
 func reset_motion_at(world_position: Vector3, facing_direction: Vector3 = Vector3.FORWARD) -> void:
 	global_position = world_position
 	movement_component.reset_runtime_state(self)
+	traversal_component.reset_runtime_state(self)
 	input_router.clear_touch_input()
 	var flat_facing := Vector3(facing_direction.x, 0.0, facing_direction.z)
 	if flat_facing.is_zero_approx():
@@ -52,3 +71,10 @@ func _face_wish_direction(wish_direction: Vector3, delta: float) -> void:
 		target_yaw,
 		movement_component.tuning.rotation_speed_radians(is_on_floor()) * delta
 	)
+
+
+func _update_traversal_pose(delta: float) -> void:
+	var lean := traversal_component.visual_lean_degrees()
+	var blend := 1.0 - exp(-traversal_component.tuning.visual_pose_sharpness * delta)
+	visual_root.rotation.x = lerp_angle(visual_root.rotation.x, deg_to_rad(lean.x), blend)
+	visual_root.rotation.z = lerp_angle(visual_root.rotation.z, deg_to_rad(lean.y), blend)

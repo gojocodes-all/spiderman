@@ -2,7 +2,7 @@
 
 Date: 2026-08-18 UTC
 
-Status: **implementation, automated acceptance, and Android package complete; physical-device validation pending**
+Status: **accepted; implementation/package complete and limited user-reported physical-device validation recorded**
 
 Artifact: `releases/milestone-1/aerial-vanguard-relay-m1-debug.apk`
 
@@ -58,19 +58,10 @@ This checks project parsing, module composition, data ordering, input snapshot r
 - `unzip -t`: no archive errors.
 - No Android permissions were reported.
 
-## Physical-device test requested
+## User-reported physical-device validation
 
-This Milestone 1 APK has **not** been run on a physical device by the workspace. On the Android phone used for Milestone 0, please specifically test:
+On 2026-08-18, the user reported manually running Milestone 1 on a physical Android device. The user stated that the game loaded, the implemented Milestone 1 work was visibly present, and Milestone 1 passed.
 
-1. Install over M0 if Android permits the matching debug signature; otherwise uninstall M0 and install M1. Confirm launch and landscape layout.
-2. Slowly tilt the left stick through walk and jog, then hold SPRINT. Check transitions, stopping distance, rapid left/right reversals, and diagonal movement.
-3. Rotate the camera, then push the stick forward. Confirm movement follows the camera's horizontal facing.
-4. Move while dragging the camera; move while tapping JUMP; drag the camera while jumping; then combine move + look + JUMP repeatedly.
-5. Sprint-jump, steer in the air, run off roof edges, and land from several heights. Note whether soft versus hard recovery feels readable and responsive.
-6. Traverse the 0.10/0.20/0.32 m step lane, short and long stairs, the green 18° ramp, the amber 38° ramp, and the red 55° rejected ramp. Report snagging, popping, jitter, or unexpected climbing.
-7. Run through both alleys, press into walls/corners, and cross the narrow platforms. Check for penetration, sticking, lateral drift, or unstable grounded state.
-8. Enter the three-wall camera bay and rotate the camera against every wall. Confirm it compresses instead of clipping through geometry, then recovers on exit.
-9. Hold SPRINT while moving and looking, then release it. Confirm no touch remains stuck. Check JUMP and temporary BURST independently.
-10. If possible, compare 30 fps and 60 fps device modes, then play continuously for 15 minutes and report frame pacing, heat, battery behavior, and any crash or freeze.
+**This is limited USER-REPORTED PHYSICAL-DEVICE VALIDATION. It is not an automated test, emulator result, workspace-connected-device test, detailed movement matrix, or performance profile.**
 
-Please report phone model, Android version, selected quality tier, display refresh rate if known, and exact reproduction steps for defects. Swinging and combat remain intentionally absent until this feedback is reviewed.
+The report establishes launch and the user's visual confirmation/acceptance of the milestone. It does not establish individual outcomes for every movement, collision, camera, multitouch, 30/60 fps, aspect-ratio, thermal, memory, or long-session case. The phone model and Android version were not reported. Those items remain unverified rather than inferred.

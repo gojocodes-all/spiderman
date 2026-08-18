@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://game/scripts/bootstrap/movement_lab_bootstrap.gd" id="1_boot"]
 [ext_resource type="Script" path="res://game/scripts/core/quality_manager.gd" id="2_quality"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://game/scenes/player/relay_avatar.tscn" id="4_player"]
 [ext_resource type="Script" path="res://game/scripts/ui/touch_input_overlay.gd" id="5_touch"]
 [ext_resource type="Script" path="res://game/scripts/tests/milestone_1_test_runner.gd" id="6_test"]
+[ext_resource type="Script" path="res://game/scripts/tests/milestone_2_test_runner.gd" id="7_m2_test"]
 
 [sub_resource type="Environment" id="Environment_lab"]
 background_mode = 1
@@ -55,3 +56,6 @@ script = ExtResource("5_touch")
 
 [node name="Milestone1TestRunner" type="Node" parent="."]
 script = ExtResource("6_test")
+
+[node name="Milestone2TestRunner" type="Node" parent="."]
+script = ExtResource("7_m2_test")

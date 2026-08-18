@@ -4,7 +4,7 @@ Last updated: 2026-08-18
 
 ## Current evidence
 
-Milestone 0 has limited user-reported functional validation on one unspecified Android phone, but **no representative device performance numbers**. Milestone 1 passes deterministic headless physics tests and static Android package checks. None of those results may be presented as an on-device frame-rate claim.
+Milestones 0 and 1 have limited user-reported functional validation on an unspecified Android phone, but **no representative device performance numbers**. Milestones 1 and 2 pass deterministic headless physics tests and static Android package checks. None of those results may be presented as an on-device frame-rate claim.
 
 ## Milestone 1 deterministic evidence
 
@@ -26,6 +26,36 @@ Movement/camera implementation policies applied in M1:
 - `SpringArm3D` owns the camera shape cast instead of a duplicate scripted camera query;
 - procedural graybox materials are cached and shared by color;
 - no production crowds, traffic, animation graph, particles, audio, or streaming cost was added.
+
+## Milestone 2 traversal evidence
+
+The preserved M1 regression suite still reports the same 30/60 Hz distances and movement/camera results after M2 integration. The M2 scene suite exercises 85 total lab collision features, 32 deterministic markers, and 26 parkour-specific features.
+
+The final M2 process completed its focused scene suite in 8.66 seconds in this workspace and observed a peak of four traversal ray queries in the tested action paths. The detector's configured per-probe hard cap is eight. Suite duration is a regression/CI metric, not Android performance evidence.
+
+Measured query policy in headless acceptance:
+
+| Situation | Traversal query behavior |
+|---|---|
+| No movement intent | Traversal detector is skipped |
+| Clear movement direction | Two forward rays; no shape clearance query |
+| Selected wall/obstacle | Bounded upper/lower/top/landing rays as applicable |
+| Candidate mantle/vault destination | One-result capsule overlap check only after a candidate top/landing exists |
+| Hard cap | At most 8 ray queries per detector probe; observed peak 4 in action filters |
+| Debug disabled | No `ImmediateMesh` rebuild and no debug HUD string construction |
+
+Traversal performance policies applied in M2:
+
+- query parameter objects and the typed `TraversalProbeResult` are reused;
+- the detector searches only the current camera-relative intent direction rather than enumerating nearby colliders;
+- stable explicitly tagged `StaticBody3D` surfaces avoid dynamic-body bookkeeping and unstable attachment cost;
+- wall and vertical actions share the same detector rather than running competing sensors;
+- destination shape checks occur contextually, not on every clear-space frame;
+- the state machine owns exactly one action, preventing duplicate movement integration;
+- debug geometry is opt-in, debug-build-only, and disabled in normal gameplay;
+- procedural lab materials remain cached/shared, and all M2 geometry uses primitive meshes.
+
+Headless suite duration and query counts are CPU-side regression indicators only. They do not measure Android GPU load, touch latency, power, thermal throttling, or rendered frame pacing.
 
 ## Product targets
 
@@ -76,6 +106,6 @@ No specific phone models are claimed until devices are actually available.
 - Crowd and traffic simulation must degrade independently from traversal physics.
 - Gameplay physics stays deterministic enough for automated probes; visual secondary motion may scale down.
 
-## Next measurement gate
+## Deferred measurement gate
 
-The Milestone 1 APK must be profiled on physical Android hardware at both a 30 fps cap and a 60 fps target where the phone supports it. Record CPU/GPU frame time, frame pacing, memory, temperature/thermal state, battery behavior, input feel, and any quality-tier changes over a repeatable 15-minute laboratory route. Until then, LOW/MEDIUM/HIGH/ULTRA rows remain targets rather than claims.
+At the later extensive-test phase, the Milestone 2 traversal baseline should be profiled on physical Android hardware at both a 30 fps cap and a 60 fps target where the phone supports it. That later pass should record CPU/GPU frame time, frame pacing, memory, thermal state, battery behavior, input feel, contextual-action predictability, and quality-tier changes over a repeatable parkour route. The immediate M2 phone gate is only install/launch and visible functional confirmation, as requested by the user. Until measured, LOW/MEDIUM/HIGH/ULTRA rows remain targets rather than claims.

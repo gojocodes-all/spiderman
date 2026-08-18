@@ -22,6 +22,14 @@ extends Resource
 @export_range(1.0, 40.0, 0.5) var speed_response_sharpness := 8.0
 @export_range(1.0, 40.0, 0.5) var speed_for_full_response := 12.0
 
+@export_group("Traversal Readability")
+@export_range(0.0, 3.0, 0.05) var traversal_direction_look_ahead := 0.55
+@export_range(0.0, 2.0, 0.05) var traversal_vertical_offset := 0.48
+@export_range(0.0, 2.0, 0.05) var traversal_wall_side_offset := 0.24
+@export_range(0.0, 20.0, 0.5) var traversal_field_of_view_addition := 3.5
+@export_range(0.0, 3.0, 0.05) var traversal_arm_extension := 0.45
+@export_range(1.0, 30.0, 0.5) var traversal_response_sharpness := 9.0
+
 @export_group("Recentering")
 @export_range(0.0, 10.0, 0.1) var automatic_recenter_delay := 1.35
 @export_range(1.0, 20.0, 0.5) var automatic_recenter_sharpness := 4.8

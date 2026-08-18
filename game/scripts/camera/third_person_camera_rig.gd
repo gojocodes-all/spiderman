@@ -16,6 +16,10 @@ var _horizontal_velocity := Vector3.ZERO
 var _wish_direction := Vector3.ZERO
 var _move_strength := 0.0
 var _smoothed_look_ahead := Vector3.ZERO
+var _traversal_state := &"idle"
+var _traversal_direction := Vector3.ZERO
+var _traversal_wall_normal := Vector3.ZERO
+var _traversal_blend := 0.0
 
 
 func _ready() -> void:
@@ -61,6 +65,12 @@ func set_motion_context(horizontal_velocity: Vector3, wish_direction: Vector3, m
 	_move_strength = clampf(move_strength, 0.0, 1.0)
 
 
+func set_traversal_context(state: StringName, travel_direction: Vector3, wall_normal: Vector3) -> void:
+	_traversal_state = state
+	_traversal_direction = Vector3(travel_direction.x, 0.0, travel_direction.z).limit_length(1.0)
+	_traversal_wall_normal = Vector3(wall_normal.x, 0.0, wall_normal.z).limit_length(1.0)
+
+
 func apply_look_delta(pixel_delta: Vector2) -> void:
 	_apply_manual_orbit(
 		-pixel_delta.x * tuning.touch_mouse_sensitivity,
@@ -81,6 +91,10 @@ func snap_to_target(world_direction: Vector3 = Vector3.FORWARD) -> void:
 	_manual_look_idle = 0.0
 	_requested_recenter = false
 	_smoothed_look_ahead = Vector3.ZERO
+	_traversal_state = &"idle"
+	_traversal_direction = Vector3.ZERO
+	_traversal_wall_normal = Vector3.ZERO
+	_traversal_blend = 0.0
 	if _target:
 		global_position = _target.global_position + tuning.target_offset
 	_apply_rotation()
@@ -143,6 +157,18 @@ func _update_follow(delta: float) -> void:
 		1.0
 	)
 	var look_ahead_target := _wish_direction * tuning.maximum_look_ahead * speed_alpha
+	var traversal_active := _traversal_state != &"idle" and _traversal_state != &"traversal_recovery"
+	var traversal_target_blend := 1.0 if traversal_active else 0.0
+	var traversal_blend_step := 1.0 - exp(-tuning.traversal_response_sharpness * delta)
+	_traversal_blend = lerpf(_traversal_blend, traversal_target_blend, traversal_blend_step)
+	var traversal_offset := Vector3.ZERO
+	if _traversal_state in [&"vertical_wall_run", &"wall_climb", &"mantle", &"ledge_grab", &"ledge_climb"]:
+		traversal_offset.y += tuning.traversal_vertical_offset
+	if not _traversal_direction.is_zero_approx():
+		traversal_offset += _traversal_direction * tuning.traversal_direction_look_ahead
+	if _traversal_state == &"wall_run" and not _traversal_wall_normal.is_zero_approx():
+		traversal_offset += _traversal_wall_normal * tuning.traversal_wall_side_offset
+	look_ahead_target += traversal_offset * _traversal_blend
 	var look_ahead_blend := 1.0 - exp(-tuning.look_ahead_sharpness * delta)
 	_smoothed_look_ahead = _smoothed_look_ahead.lerp(look_ahead_target, look_ahead_blend)
 	var desired_position := _target.global_position + tuning.target_offset + _smoothed_look_ahead
@@ -158,6 +184,8 @@ func _update_speed_response(delta: float) -> void:
 	)
 	var desired_length := tuning.base_arm_length + tuning.maximum_speed_arm_extension * speed_alpha
 	var desired_fov := tuning.base_field_of_view + tuning.maximum_speed_fov_addition * speed_alpha
+	desired_length += tuning.traversal_arm_extension * _traversal_blend
+	desired_fov += tuning.traversal_field_of_view_addition * _traversal_blend
 	var blend := 1.0 - exp(-tuning.speed_response_sharpness * delta)
 	spring_arm.spring_length = lerpf(spring_arm.spring_length, desired_length, blend)
 	camera.fov = lerpf(camera.fov, desired_fov, blend)

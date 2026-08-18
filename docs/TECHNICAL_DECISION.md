@@ -2,7 +2,7 @@
 
 Decision date: 2026-08-18
 
-Status: accepted for the foundation and first traversal vertical slice; reassess after on-device M1 profiling
+Status: accepted through the Milestone 2 parkour vertical slice; reassess after representative on-device profiling
 
 ## Decision
 
@@ -67,7 +67,7 @@ Production Play delivery requires an AAB, Gradle, a private release key, Play si
 
 Reconsider the engine before major content production if any of these occur:
 
-- M1 cannot sustain target frame time on representative devices after reasonable optimization;
+- the current traversal build cannot sustain target frame time on representative devices after reasonable optimization;
 - required animation, streaming, tooling, or graphics work would cost more to build than migration;
 - Unreal 5.8+ becomes genuinely runnable in the development environment with API 36 packaging verified;
 - production staffing or licensed assets strongly favor another engine;

@@ -25,6 +25,17 @@ No third-party city model, character, texture, animation, sound, map, or commerc
 
 Milestone 1 imports no third-party model, texture, material, animation, sound, map, logo, or marketplace pack. The M0 original icon and primitive Relay blockout remain in use unchanged.
 
+## Assets used in Milestone 2
+
+| Asset name | Source | Creator | Licence | Attribution requirements | Cost | Where it is used | Modified |
+|---|---|---|---|---|---|---|---|
+| Parkour test laboratory expansion | [`movement_traversal_lab.gd`](game/scripts/world/movement_traversal_lab.gd) | Aerial Vanguard project | Original project work; no third-party asset | None | Free/in-house | M2 wall-run lanes, vertical routes, vault/mantle/ledge stations, parallel walls, blocked cases, invalid surfaces, and chained route | Generated at runtime from original code and Godot primitives |
+| Traversal system and tuning data | [`game/scripts/traversal/`](game/scripts/traversal/) and [`game/data/traversal/`](game/data/traversal/) | Aerial Vanguard project | Original project work; no third-party asset | None | Free/in-house | Surface detection, traversal states/actions, debug visualization, and centralized M2 tuning | Authored for M2; code and data resources |
+| Procedural traversal presentation | [`parkour_traversal.gd`](game/scripts/traversal/parkour_traversal.gd) | Aerial Vanguard project | Original project work; no third-party asset | None | Free/in-house | Temporary lean/pose feedback on the primitive hero during traversal actions | Original procedural transforms; no copied or imported animation |
+| Godot Engine Android runtime and export template, M2 package | [Godot 4.6.3](https://godotengine.org/article/maintenance-release-godot-4-6-3/) | Godot Engine contributors | MIT, with separately licensed bundled third-party components | Preserve applicable copyright and licence notices; see `THIRD_PARTY_NOTICES.md` | Free | Engine runtime inside the M2 APK | Project data packaged into the unmodified official debug template |
+
+Milestone 2 imports no third-party model, texture, material, animation, sound, map, logo, code pack, or marketplace asset. All traversal behavior, test geometry, state data, and temporary presentation are original project work.
+
 ## Free candidates researched but not imported
 
 These are candidates, not approvals. Record the exact asset/download/version and recheck its page on the import date.

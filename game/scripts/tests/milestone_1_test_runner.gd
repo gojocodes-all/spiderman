@@ -10,7 +10,7 @@ var _distance_60_hz := 0.0
 
 
 func _ready() -> void:
-	if DisplayServer.get_name() == "headless" or OS.get_environment("AV_RUN_SMOKE_TESTS") == "1":
+	if OS.get_environment("AV_TEST_SUITE") == "m1":
 		call_deferred("_run_suite")
 
 

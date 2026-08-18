@@ -37,6 +37,18 @@ The production ambition remains high, but the near-term goal is a traversal vert
 
 The design inference from these APIs was to use the engine's grounded-body and spring-arm systems for broad motion/camera behavior, adding a small explicit step solver only where `move_and_slide()` alone did not satisfy stair acceptance. The solver's 0.38 m limit is game tuning, not a limit imposed by Godot.
 
+## Milestone 2 parkour and traversal findings
+
+| Topic | Primary source | Finding applied to Milestone 2 |
+|---|---|---|
+| Direct-space queries | [Godot `PhysicsDirectSpaceState3D`](https://docs.godotengine.org/en/stable/classes/class_physicsdirectspacestate3d.html) | Traversal detection uses bounded `intersect_ray()` and contextual `intersect_shape()` calls instead of enumerating all nearby physics bodies. |
+| Reusable ray parameters | [Godot `PhysicsRayQueryParameters3D`](https://docs.godotengine.org/en/stable/classes/class_physicsrayqueryparameters3d.html) | A small set of query objects is reused for face, upper, top, and landing probes, with the player RID excluded and collision masks kept explicit. |
+| Destination clearance | [Godot `PhysicsShapeQueryParameters3D`](https://docs.godotengine.org/en/stable/classes/class_physicsshapequeryparameters3d.html) | Candidate vault/mantle standing points receive a capsule overlap check only after a viable top or landing is found. |
+| Debug geometry | [Godot `ImmediateMesh`](https://docs.godotengine.org/en/stable/classes/class_immediatemesh.html) | Opt-in debug builds can display current probes, normals, and destinations without adding production art assets or release-time query work. |
+| Physics process discipline | [Godot physics introduction](https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html) | Traversal state transitions and body motion remain in the fixed physics process; camera presentation observes the result without becoming a competing motion owner. |
+
+The project-specific inference is to require explicit `traversal_surface` authoring on stable static geometry, reject invalid/floor/ceiling/tiny/blocked candidates early, and allow exactly one traversal state to own motion. Wall-run duration, climbing distance, chain budget, clearance, and momentum values are game tuning—not copied proprietary traversal data.
+
 ## Rendering strategy derived from research
 
 - Start on the Mobile renderer and establish art direction inside real GPU budgets.

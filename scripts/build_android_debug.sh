@@ -3,7 +3,7 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GODOT_BIN="${GODOT_BIN:-godot}"
-DEFAULT_OUTPUT="$PROJECT_ROOT/build/android/aerial-vanguard-m1-debug.apk"
+DEFAULT_OUTPUT="$PROJECT_ROOT/build/android/aerial-vanguard-m2-debug.apk"
 OUTPUT_PATH="${1:-$DEFAULT_OUTPUT}"
 
 if ! command -v "$GODOT_BIN" >/dev/null 2>&1; then

@@ -59,7 +59,7 @@ Record model, SoC/GPU, RAM, OS/API, refresh rate, page size, build hash, quality
 | Acceleration/deceleration | First stopping frame then settle | Pass: no snap; settles below 0.15 m/s |
 | Camera-relative movement | Camera faces world-right, stick forward | Pass: 4.66 m primarily world +X |
 | Fixed physics rate | Identical 1.5 s sprint at 30 and 60 Hz | 16.060 / 15.965 m; 0.095 m delta |
-| Direction reversal | 24 alternating four-frame inputs | Pass: 2.53 m/s peak, 0.48 m drift |
+| Direction reversal | 24 alternating four-frame inputs | Pass: 2.53 m/s peak, 0.52 m drift |
 | Jump/air | Sprint jump, air steer, repeated buffered requests | Pass: 9.93 m/s vertical, 11.80 m/s horizontal, 0.51 m steer, five jumps |
 | Landing | Medium/high drop and roof run-off | Pass: 12.35 m/s soft, 24.05 m/s hard, falling/landing states |
 | Steps/stairs/slopes | 0.10/0.20/0.32/0.48 m steps, stairs, 18°/38°/55° ramps | Pass: supported heights climb; 0.48 m and 55° reject |
@@ -72,6 +72,31 @@ Record model, SoC/GPU, RAM, OS/API, refresh rate, page size, build hash, quality
 
 ## Milestone 1 physical-device gate
 
-Follow the ten-part checklist in [M1_ACCEPTANCE.md](M1_ACCEPTANCE.md). Automated 30/60 Hz physics consistency is not a substitute for Android frame-rate, touch-latency, thermal, or driver evidence.
+Milestone 1 received limited user-reported physical validation on 2026-08-18: the game loaded, the implemented work was visibly present, and the user accepted the milestone. This was not a detailed movement or performance matrix. See [M1_ACCEPTANCE.md](M1_ACCEPTANCE.md).
 
-Only after physical feedback is reviewed and major movement/camera defects are fixed may swinging or other superhero traversal begin. Combat remains later.
+## Milestone 2 parkour automated matrix
+
+| Area | Probe | Accepted result |
+|---|---|---|
+| Architecture | Required modules/resources, ten exclusive states, legal transitions, M1 composition retained | Pass |
+| Surface policy | Tagged wall versus explicit invalid wall, tiny geometry, shallow surface, blocked top | Pass: valid accepted; unsuitable candidates rejected |
+| Query budget | Clear intent and selected obstacle/wall paths | Pass: detector cap 8; observed action-test peak 4 |
+| Horizontal wall run | Angled airborne entry, along-wall travel, wall jump | Pass: 9.20 m/s entry, 2.31 m travel, 4.67 m/s away component |
+| Horizontal edge cases | Slow entry, high entry, invalid wall, sudden wall end | Pass: slow/invalid reject, high speed clamps, end exits cleanly |
+| Vertical traversal | Direct wall entry, rise, climb transition, duration/distance exhaustion | Pass: 3.45 m rise under 4.25 m configured limit; climb visited; returns to air |
+| Wall-jump exploit guard | Repeated close-wall attachment attempts | Pass: chain budget enforced and resets only on grounding |
+| Vault | Low obstacle, forward intent, landing clearance, momentum handoff | Pass: contextual entry and 7.74 m/s preserved exit speed |
+| Mantle | Reachable top, blocked destination, collision-safe two-phase path | Pass: valid reaches 2.45 m top; blocked target rejected |
+| Ledge | Falling grab, hang, climb, hold-away drop, away+jump | Pass: grab at 5.99 m, both exits recover without state lock |
+| Camera | Wall-run observation, subtle FOV/offset, orbit ownership | Pass: traversal FOV response; no forced yaw |
+| Debug | Default release state and F8 debug-build toggle | Pass: disabled by default; debug-only toggle works |
+| Multitouch | Move + look + JUMP through the shared input router | Pass: independent channels retained |
+| M1 regression | Full M1 suite in a separate Godot process | Pass: all M0/M1 acceptance markers preserved |
+
+The deterministic lab contains 85 total collision features, 32 markers, and 26 parkour-specific features. It deliberately includes corners, dead ends, parallel walls, blocked tops, invalid surfaces, tiny objects, gaps, and chained routes.
+
+## Milestone 2 physical-device gate
+
+Milestone 2 remains pending user physical-device validation. The requested first gate is intentionally short: install/update, launch, confirm the parkour lab renders, and visibly exercise the contextual wall run, vertical traversal, wall jump, vault, mantle, and ledge actions while movement/look/JUMP remain usable together. Detailed frame pacing, thermal, aspect-ratio, and edge-case profiling is deferred until the user requests the later extensive test phase.
+
+Swinging and combat remain blocked until this M2 checkpoint is reviewed. Automated/headless results are not presented as phone performance evidence.

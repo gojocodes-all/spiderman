@@ -22,6 +22,7 @@ func _ready() -> void:
 	_register_action(&"sprint", [KEY_SHIFT], -1, 0.0, JOY_BUTTON_LEFT_STICK)
 	_register_action(&"burst", [KEY_E], -1, 0.0, JOY_BUTTON_RIGHT_SHOULDER)
 	_register_action(&"camera_recenter", [KEY_C], -1, 0.0, JOY_BUTTON_RIGHT_STICK)
+	_register_action(&"traversal_debug", [KEY_F8])
 
 
 func set_touch_move(value: Vector2) -> void:

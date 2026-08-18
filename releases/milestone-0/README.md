@@ -12,4 +12,6 @@
 - 16 KB ZIP alignment and `0x4000` native LOAD alignment verified
 - Not run on a physical Android device in the build workspace
 
+The user later reported manually installing and launching this exact checkpoint on a real Android phone and confirmed landscape rendering, virtual movement, right-side camera drag, JUMP, BURST, and no immediate crash. This is limited user-reported physical validation, not a workspace device/performance result.
+
 See [`docs/M0_ACCEPTANCE.md`](../../docs/M0_ACCEPTANCE.md) for the full evidence and explicit limits.

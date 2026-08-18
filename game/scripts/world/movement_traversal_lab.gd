@@ -15,6 +15,7 @@ func _ready() -> void:
 	_create_narrow_platform_zone()
 	_create_camera_collision_bay()
 	_create_landing_markers()
+	_create_parkour_test_zones()
 	print("[LAB] Movement traversal laboratory ready features=%d markers=%d" % [
 		_feature_count,
 		get_tree().get_nodes_in_group(&"lab_marker").size(),
@@ -33,7 +34,7 @@ func _create_foundation_and_flat_zones() -> void:
 	_create_static_box(
 		"Foundation",
 		Vector3(0.0, -0.3, 0.0),
-		Vector3(180.0, 0.6, 180.0),
+		Vector3(240.0, 0.6, 240.0),
 		Color("111824"),
 		"baseline floor, edge stability, and unrestricted acceleration",
 		[&"lab_flat"]
@@ -304,6 +305,286 @@ func _create_landing_markers() -> void:
 	_add_marker(&"HardLandingDrop", Vector3(-58.0, 9.0, 4.0), Vector3.FORWARD)
 
 
+func _create_parkour_test_zones() -> void:
+	_create_horizontal_wall_run_zone()
+	_create_vertical_wall_zone()
+	_create_vault_and_mantle_zone()
+	_create_ledge_zone()
+	_create_parallel_and_invalid_zone()
+	_create_chained_parkour_route()
+
+
+func _create_horizontal_wall_run_zone() -> void:
+	_create_static_box(
+		"ParkourHorizontalWallLong",
+		Vector3(-72.5, 3.0, -35.0),
+		Vector3(0.8, 6.0, 26.0),
+		Color("2c6670"),
+		"angled airborne entry, horizontal wall run, speed decay, jump-away, and natural wall-end exit",
+		[&"lab_parkour", &"lab_wall_run", &"lab_tall_wall"],
+		1
+	)
+	_create_static_box(
+		"ParkourWallRunCorner",
+		Vector3(-68.4, 3.0, -48.0),
+		Vector3(9.0, 6.0, 0.8),
+		Color("315b69"),
+		"wall-normal change, corner exit, and wall-run-to-wall transition rejection",
+		[&"lab_parkour", &"lab_corner", &"lab_wall_run"],
+		1
+	)
+	_create_static_box(
+		"ParkourWallRunDeadEnd",
+		Vector3(-62.0, 2.0, -43.0),
+		Vector3(0.8, 4.0, 10.0),
+		Color("624354"),
+		"dead-end recovery without sticking or wall adhesion",
+		[&"lab_parkour", &"lab_dead_end"],
+		1
+	)
+	_add_marker(&"ParkourWallRunStart", Vector3(-71.62, 2.25, -22.2), Vector3(-0.28, 0.0, -0.96).normalized())
+	_add_marker(&"ParkourWallRunEndProbe", Vector3(-71.62, 2.25, -44.0), Vector3(-0.24, 0.0, -0.97).normalized())
+
+
+func _create_vertical_wall_zone() -> void:
+	_create_static_box(
+		"ParkourVerticalWall",
+		Vector3(-56.0, 3.0, -48.0),
+		Vector3(8.0, 6.0, 1.2),
+		Color("3d6676"),
+		"direct jump entry, finite vertical wall run, climb decay, wall jump, and clear-top transition",
+		[&"lab_parkour", &"lab_vertical_wall", &"lab_tall_wall"],
+		1
+	)
+	_create_static_box(
+		"ParkourVerticalRoof",
+		Vector3(-56.0, 5.75, -52.2),
+		Vector3(10.0, 0.5, 8.0),
+		Color("405765"),
+		"vertical-wall top destination and rooftop continuation",
+		[&"lab_parkour", &"lab_rooftop", &"lab_vertical_destination"],
+		1
+	)
+	_create_static_box(
+		"ParkourVerticalLimitWall",
+		Vector3(-44.0, 5.0, -53.0),
+		Vector3(7.0, 10.0, 1.2),
+		Color("3b4b5c"),
+		"vertical duration and distance limiting on a wall with no reachable top",
+		[&"lab_parkour", &"lab_vertical_wall", &"lab_limit_wall"],
+		1
+	)
+	_add_marker(&"ParkourVerticalStart", Vector3(-56.0, 1.55, -46.3), Vector3.FORWARD)
+	_add_marker(&"ParkourVerticalLimitStart", Vector3(-44.0, 1.55, -51.3), Vector3.FORWARD)
+
+
+func _create_vault_and_mantle_zone() -> void:
+	_create_static_box(
+		"ParkourVaultLow",
+		Vector3(-60.0, 0.42, -5.0),
+		Vector3(5.0, 0.84, 1.0),
+		Color("297b68"),
+		"automatic sprint vault with a clear landing and preserved forward momentum",
+		[&"lab_parkour", &"lab_vault", &"lab_low_obstacle"],
+		1
+	)
+	_create_static_cylinder(
+		"ParkourVaultPipe",
+		Vector3(-52.0, 0.48, -5.0),
+		0.48,
+		5.0,
+		Vector3(0.0, 0.0, 90.0),
+		Color("378679"),
+		"rounded contextual vault surface and curved-normal tolerance",
+		[&"lab_parkour", &"lab_vault", &"lab_pipe"],
+		1
+	)
+	_create_static_box(
+		"ParkourVaultMaximum",
+		Vector3(-44.0, 0.52, -5.0),
+		Vector3(5.0, 1.04, 1.0),
+		Color("568660"),
+		"upper vault-height boundary and landing-space validation",
+		[&"lab_parkour", &"lab_vault", &"lab_low_obstacle"],
+		1
+	)
+	_create_static_box(
+		"ParkourMantleLow",
+		Vector3(-60.0, 0.85, -14.0),
+		Vector3(5.0, 1.7, 1.2),
+		Color("6f6b3f"),
+		"low mantle from jump or fall into a clear standing destination",
+		[&"lab_parkour", &"lab_mantle", &"lab_medium_wall"],
+		1
+	)
+	_create_static_box(
+		"ParkourMantleHigh",
+		Vector3(-50.0, 1.15, -14.0),
+		Vector3(5.0, 2.3, 1.4),
+		Color("7b6740"),
+		"maximum-height mantle and collision-safe two-phase lift",
+		[&"lab_parkour", &"lab_mantle", &"lab_medium_wall"],
+		1
+	)
+	_create_static_box(
+		"ParkourBlockedMantle",
+		Vector3(-40.0, 1.0, -14.0),
+		Vector3(5.0, 2.0, 1.2),
+		Color("78434b"),
+		"otherwise reachable mantle whose standing destination is blocked by a ceiling",
+		[&"lab_parkour", &"lab_mantle", &"lab_blocked_mantle"],
+		1
+	)
+	_create_static_box(
+		"ParkourBlockedMantleCeiling",
+		Vector3(-40.0, 3.1, -14.4),
+		Vector3(6.0, 0.5, 3.0),
+		Color("552f3c"),
+		"clearance rejection above a valid mantle face",
+		[&"lab_parkour", &"lab_ceiling", &"lab_blocked_mantle"],
+		-1
+	)
+	_add_marker(&"ParkourVaultStart", Vector3(-60.0, 1.05, -1.7), Vector3.FORWARD)
+	_add_marker(&"ParkourPipeVaultStart", Vector3(-52.0, 1.05, -1.7), Vector3.FORWARD)
+	_add_marker(&"ParkourMantleStart", Vector3(-60.0, 1.78, -12.35), Vector3.FORWARD)
+	_add_marker(&"ParkourHighMantleStart", Vector3(-50.0, 1.82, -12.25), Vector3.FORWARD)
+	_add_marker(&"ParkourBlockedMantleStart", Vector3(-40.0, 1.8, -12.25), Vector3.FORWARD)
+
+
+func _create_ledge_zone() -> void:
+	_create_static_box(
+		"ParkourWideLedgeTower",
+		Vector3(-30.0, 2.5, -35.0),
+		Vector3(8.0, 5.0, 8.0),
+		Color("485c72"),
+		"wide ledge grab, hang, lateral movement, climb, drop, and jump away",
+		[&"lab_parkour", &"lab_ledge", &"lab_wide_ledge", &"lab_rooftop"],
+		1
+	)
+	_create_static_box(
+		"ParkourNarrowLedgeTower",
+		Vector3(-20.0, 2.0, -35.0),
+		Vector3(2.0, 4.0, 5.0),
+		Color("526176"),
+		"narrow ledge approach-angle and destination-width exposure",
+		[&"lab_parkour", &"lab_ledge", &"lab_narrow_ledge"],
+		1
+	)
+	_create_static_box(
+		"ParkourCeilingLedge",
+		Vector3(-10.0, 2.0, -35.0),
+		Vector3(5.0, 4.0, 3.0),
+		Color("5e4050"),
+		"ledge with deliberately blocked headroom for grab/mantle rejection",
+		[&"lab_parkour", &"lab_ledge", &"lab_blocked_mantle"],
+		1
+	)
+	_create_static_box(
+		"ParkourCeilingLedgeBlocker",
+		Vector3(-10.0, 4.95, -35.8),
+		Vector3(6.0, 0.5, 4.0),
+		Color("4a2f3c"),
+		"blocked ledge destination ceiling",
+		[&"lab_parkour", &"lab_ceiling"],
+		-1
+	)
+	_add_marker(&"ParkourWideLedgeGrab", Vector3(-30.0, 4.25, -30.35), Vector3.FORWARD)
+	_add_marker(&"ParkourNarrowLedgeGrab", Vector3(-20.0, 3.3, -31.9), Vector3.FORWARD)
+
+
+func _create_parallel_and_invalid_zone() -> void:
+	_create_static_box(
+		"ParkourParallelWallLeft",
+		Vector3(-82.0, 3.0, -66.0),
+		Vector3(0.7, 6.0, 22.0),
+		Color("405e6e"),
+		"parallel-wall chaining and anti-infinite-height budget",
+		[&"lab_parkour", &"lab_parallel_wall", &"lab_wall_run"],
+		1
+	)
+	_create_static_box(
+		"ParkourParallelWallRight",
+		Vector3(-78.4, 3.0, -66.0),
+		Vector3(0.7, 6.0, 22.0),
+		Color("405e6e"),
+		"opposing wall jump surface in a narrow but valid corridor",
+		[&"lab_parkour", &"lab_parallel_wall", &"lab_wall_run"],
+		1
+	)
+	_create_static_box(
+		"ParkourTinyTraversalObject",
+		Vector3(-68.0, 0.2, -66.0),
+		Vector3(0.35, 0.4, 0.35),
+		Color("8b4b4f"),
+		"tiny explicitly marked object that must still fail wall/parkour geometry checks",
+		[&"lab_parkour", &"lab_invalid_traversal", &"lab_tiny_object"],
+		1
+	)
+	_create_static_box(
+		"ParkourExplicitInvalidWall",
+		Vector3(-58.0, 3.0, -68.0),
+		Vector3(7.0, 6.0, 0.8),
+		Color("713f4b"),
+		"full-size wall explicitly excluded from traversal",
+		[&"lab_parkour", &"lab_invalid_traversal", &"lab_wall"],
+		-1
+	)
+	var shallow_invalid := _create_ramp(
+		"ParkourInvalidShallowSurface",
+		Vector3(-48.0, 0.0, -66.0),
+		8.0,
+		5.0,
+		12.0,
+		Color("6d4851"),
+		[&"lab_parkour", &"lab_invalid_traversal", &"lab_ramp"]
+	)
+	_mark_traversal_mode(shallow_invalid, -1)
+	_add_marker(&"ParkourParallelStart", Vector3(-80.2, 2.25, -55.0), Vector3.FORWARD)
+	_add_marker(&"ParkourInvalidWallStart", Vector3(-58.0, 2.0, -65.8), Vector3.FORWARD)
+	_add_marker(&"ParkourTinyObjectStart", Vector3(-68.0, 1.05, -63.8), Vector3.FORWARD)
+
+
+func _create_chained_parkour_route() -> void:
+	_create_visual_box("ParkourRouteLane", Vector3(-5.0, 0.015, 57.0), Vector3(8.0, 0.025, 30.0), Color("173d43"))
+	_create_static_box(
+		"ParkourRouteVault",
+		Vector3(-5.0, 0.45, 63.0),
+		Vector3(5.0, 0.9, 1.0),
+		Color("2f806f"),
+		"route step one: sprint into contextual vault",
+		[&"lab_parkour", &"lab_parkour_route", &"lab_vault"],
+		1
+	)
+	_create_static_box(
+		"ParkourRouteWallRun",
+		Vector3(-9.0, 3.0, 53.5),
+		Vector3(0.8, 6.0, 16.0),
+		Color("2f6775"),
+		"route step two: jump at an angle into horizontal wall run and wall jump",
+		[&"lab_parkour", &"lab_parkour_route", &"lab_wall_run"],
+		1
+	)
+	_create_static_box(
+		"ParkourRouteRoof",
+		Vector3(-5.0, 1.25, 42.0),
+		Vector3(9.0, 2.5, 8.0),
+		Color("4a5967"),
+		"route step three: rooftop jump into mantle and resumed sprint",
+		[&"lab_parkour", &"lab_parkour_route", &"lab_rooftop", &"lab_mantle"],
+		1
+	)
+	_create_static_box(
+		"ParkourRouteLandingRoof",
+		Vector3(-5.0, 2.25, 30.0),
+		Vector3(9.0, 0.5, 7.0),
+		Color("536373"),
+		"route step four: gap landing and continued rooftop sprint",
+		[&"lab_parkour", &"lab_parkour_route", &"lab_rooftop", &"lab_gap"],
+		1
+	)
+	_add_marker(&"ParkourRouteStart", Vector3(-5.0, 1.05, 70.0), Vector3.FORWARD)
+
+
 func _create_stairs(
 	name_prefix: String,
 	start: Vector3,
@@ -358,7 +639,8 @@ func _create_static_box(
 	size_value: Vector3,
 	color: Color,
 	purpose: String,
-	groups: Array[StringName]
+	groups: Array[StringName],
+	traversal_mode: int = 0
 ) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = name_value
@@ -369,6 +651,7 @@ func _create_static_box(
 	body.add_to_group(&"lab_feature")
 	for group_name in groups:
 		body.add_to_group(group_name)
+	_mark_traversal_mode(body, traversal_mode)
 	add_child(body)
 
 	var collision := CollisionShape3D.new()
@@ -396,7 +679,8 @@ func _create_static_cylinder(
 	rotation_degrees_value: Vector3,
 	color: Color,
 	purpose: String,
-	groups: Array[StringName]
+	groups: Array[StringName],
+	traversal_mode: int = 0
 ) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = name_value
@@ -408,6 +692,7 @@ func _create_static_cylinder(
 	body.add_to_group(&"lab_feature")
 	for group_name in groups:
 		body.add_to_group(group_name)
+	_mark_traversal_mode(body, traversal_mode)
 	add_child(body)
 
 	var collision := CollisionShape3D.new()
@@ -466,3 +751,12 @@ func _material(color: Color) -> StandardMaterial3D:
 	material.roughness = 0.82
 	_materials[key] = material
 	return material
+
+
+func _mark_traversal_mode(body: StaticBody3D, traversal_mode: int) -> void:
+	if traversal_mode > 0:
+		body.set_meta(&"traversal_surface", true)
+		body.add_to_group(&"traversal_surface")
+	elif traversal_mode < 0:
+		body.set_meta(&"traversal_invalid", true)
+		body.add_to_group(&"traversal_invalid")

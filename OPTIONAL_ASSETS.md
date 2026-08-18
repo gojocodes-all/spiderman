@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-08-18
 
-No paid asset is approved or required for Milestones 0 or 1. Nothing has been purchased.
+No paid asset is approved or required for Milestones 0, 1, or 2. Nothing has been purchased.
 
 When a paid asset is genuinely useful, add it here before any purchase decision with:
 

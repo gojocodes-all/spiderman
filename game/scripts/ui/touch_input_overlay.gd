@@ -101,14 +101,14 @@ func _create_hud() -> void:
 	add_child(title)
 
 	var status := Label.new()
-	status.text = "M1 CORE MOVEMENT LAB  •  ORIGINAL PROCEDURAL GRAYBOX  •  NO EXTERNAL ART"
+	status.text = "M2 PARKOUR LAB  •  CONTEXTUAL WALL / VAULT / MANTLE / LEDGE TRAVERSAL  •  ORIGINAL GRAYBOX"
 	status.position = Vector2(30.0, 52.0)
 	status.add_theme_font_size_override("font_size", 13)
 	status.add_theme_color_override("font_color", Color(0.75, 0.8, 0.86, 0.88))
 	add_child(status)
 
 	var help := Label.new()
-	help.text = "MOVE  left thumb / WASD   LOOK  right drag / RMB   JUMP  Space   SPRINT  Shift   BURST  E"
+	help.text = "MOVE / LOOK / JUMP drive contextual parkour   SPRINT builds momentum   F8 traversal debug   BURST remains a test probe"
 	help.anchor_top = 1.0
 	help.anchor_bottom = 1.0
 	help.offset_left = 28.0

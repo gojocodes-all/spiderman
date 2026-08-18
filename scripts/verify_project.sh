@@ -10,21 +10,26 @@ if ! command -v "$GODOT_BIN" >/dev/null 2>&1; then
 	exit 2
 fi
 
-set +e
-SMOKE_OUTPUT="$(AV_RUN_SMOKE_TESTS=1 "$GODOT_BIN" --headless --path "$PROJECT_ROOT" 2>&1)"
-SMOKE_STATUS=$?
-set -e
+run_suite() {
+	local suite_name="$1"
+	local expected_marker="$2"
+	local suite_output
+	local suite_status
+	set +e
+	suite_output="$(AV_TEST_SUITE="$suite_name" "$GODOT_BIN" --headless --path "$PROJECT_ROOT" 2>&1)"
+	suite_status=$?
+	set -e
+	printf '%s\n' "$suite_output"
+	if [[ $suite_status -ne 0 ]]; then
+		printf '[VERIFY] Godot %s suite exited with status %d\n' "$suite_name" "$suite_status" >&2
+		exit "$suite_status"
+	fi
+	if ! grep -Fq "$expected_marker" <<<"$suite_output"; then
+		printf '[VERIFY] Missing %s PASS marker.\n' "$suite_name" >&2
+		exit 1
+	fi
+}
 
-printf '%s\n' "$SMOKE_OUTPUT"
-
-if [[ $SMOKE_STATUS -ne 0 ]]; then
-	printf '[VERIFY] Godot exited with status %d\n' "$SMOKE_STATUS" >&2
-	exit "$SMOKE_STATUS"
-fi
-
-if ! grep -Fq '[SMOKE] PASS' <<<"$SMOKE_OUTPUT"; then
-	printf '[VERIFY] Missing smoke-test PASS marker.\n' >&2
-	exit 1
-fi
-
-printf '[VERIFY] Project smoke test passed.\n'
+run_suite m1 '[SMOKE] PASS milestone=1'
+run_suite m2 '[SMOKE] PASS milestone=2'
+printf '[VERIFY] Milestone 1 regression and Milestone 2 parkour suites passed.\n'

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://game/scripts/player/player_avatar.gd" id="1_avatar"]
 [ext_resource type="Script" path="res://game/scripts/input/player_input_router.gd" id="2_input"]
@@ -8,6 +8,11 @@
 [ext_resource type="Script" path="res://game/scripts/movement/movement_state_machine.gd" id="6_state"]
 [ext_resource type="Script" path="res://game/scripts/movement/step_up_solver.gd" id="7_step"]
 [ext_resource type="Resource" path="res://game/data/movement/default_camera_tuning.tres" id="8_camera_tuning"]
+[ext_resource type="Script" path="res://game/scripts/traversal/parkour_traversal.gd" id="9_traversal"]
+[ext_resource type="Resource" path="res://game/data/traversal/default_traversal_tuning.tres" id="10_traversal_tuning"]
+[ext_resource type="Script" path="res://game/scripts/traversal/traversal_state_machine.gd" id="11_traversal_state"]
+[ext_resource type="Script" path="res://game/scripts/traversal/traversal_surface_detector.gd" id="12_detector"]
+[ext_resource type="Script" path="res://game/scripts/traversal/traversal_debug_visualizer.gd" id="13_debug"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 radius = 0.43
@@ -121,6 +126,19 @@ script = ExtResource("6_state")
 
 [node name="StepUpSolver" type="Node" parent="Movement"]
 script = ExtResource("7_step")
+
+[node name="Traversal" type="Node" parent="."]
+script = ExtResource("9_traversal")
+tuning = ExtResource("10_traversal_tuning")
+
+[node name="StateMachine" type="Node" parent="Traversal"]
+script = ExtResource("11_traversal_state")
+
+[node name="SurfaceDetector" type="Node" parent="Traversal"]
+script = ExtResource("12_detector")
+
+[node name="DebugVisualizer" type="Node3D" parent="Traversal"]
+script = ExtResource("13_debug")
 
 [node name="CameraRig" type="Node3D" parent="."]
 position = Vector3(0, 0.88, 0)
