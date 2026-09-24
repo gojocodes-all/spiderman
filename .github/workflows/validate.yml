@@ -45,6 +45,13 @@ jobs:
           unzip -q "$archive_path" -d "$install_dir"
           chmod +x "$install_dir/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
 
+      - name: Import project metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" \
+            --headless --editor --quit --path "$GITHUB_WORKSPACE"
+
       - name: Run project verification
         shell: bash
         run: |
