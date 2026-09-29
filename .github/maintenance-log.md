@@ -1,5 +1,25 @@
 # Maintenance log
 
+## 2026-09-29 — Clear touch input when the app loses focus
+
+- **Rationale:** Android interruptions can remove application focus without
+  delivering the final touch or button-release events. Movement, camera touch
+  IDs, sprint, or queued actions could consequently remain active when the
+  player returned to the game.
+- **Files changed:** `game/scripts/ui/touch_input_overlay.gd`,
+  `game/scripts/tests/milestone_1_test_runner.gd`, and
+  `.github/maintenance-log.md`.
+- **Validation performed:** Extended the existing Milestone 1 headless suite to
+  simulate active move/look touches, held sprint, queued jump and BURST input,
+  followed by application focus loss. The test verifies that every touch state
+  is released. Also ran the complete Milestone 1 and Milestone 2 verification
+  suites and checked the final diff.
+- **Risk level:** Low. The reset runs only when the application loses focus,
+  pauses, or the overlay exits; ordinary touch handling and gameplay tuning are
+  unchanged.
+- **Rollback:** Revert the pull request's squash commit to restore the previous
+  interruption behavior.
+
 ## 2026-09-24 — Add reproducible Godot validation
 
 - **Rationale:** The repository includes headless milestone test suites and a verification script, but no hosted check ran them for pull requests or updates to the default branch. A clean clone also needs a headless editor import to generate Godot's global-class metadata before the suites can load.

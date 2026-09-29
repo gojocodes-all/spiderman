@@ -25,8 +25,12 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
-	if _input_router:
-		_input_router.clear_touch_input()
+	_release_touch_input()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
+		_release_touch_input()
 
 
 func bind(input_router: PlayerInputRouter, camera_rig: ThirdPersonCameraRig) -> void:
@@ -178,6 +182,17 @@ func _on_resized() -> void:
 
 func _reset_move_origin() -> void:
 	_move_origin = Vector2(size.x * 0.15, size.y * 0.76)
+
+
+func _release_touch_input() -> void:
+	_move_touch_id = -1
+	_look_touch_id = -1
+	_move_value = Vector2.ZERO
+	if _input_router:
+		_input_router.clear_touch_input()
+	if is_node_ready():
+		_reset_move_origin()
+		queue_redraw()
 
 
 func debug_layout_snapshot(viewport_size: Vector2) -> Dictionary:

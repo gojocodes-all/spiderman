@@ -73,6 +73,9 @@ func _run_suite() -> void:
 	_test_simultaneous_touch_channels()
 	if _failed:
 		return
+	_test_interrupted_touch_input()
+	if _failed:
+		return
 	await _test_camera_limits_and_recenter()
 	if _failed:
 		return
@@ -442,6 +445,32 @@ func _test_simultaneous_touch_channels() -> void:
 	_check(_overlay.debug_touch_ids() == Vector2i(-1, -1), "touch channels did not release independently")
 	if not _failed:
 		_pass("simultaneous_touch", "move+look+jump retained")
+
+
+func _test_interrupted_touch_input() -> void:
+	var move_press := InputEventScreenTouch.new()
+	move_press.index = 31
+	move_press.position = Vector2(180.0, 540.0)
+	move_press.pressed = true
+	_overlay._input(move_press)
+	var look_press := InputEventScreenTouch.new()
+	look_press.index = 32
+	look_press.position = Vector2(850.0, 320.0)
+	look_press.pressed = true
+	_overlay._input(look_press)
+	_overlay._set_sprint(true)
+	_player.input_router.request_touch_jump()
+	_player.input_router.request_touch_burst()
+
+	_overlay._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	var snapshot := _player.input_router.consume_snapshot()
+	_check(_overlay.debug_touch_ids() == Vector2i(-1, -1), "focus loss did not release touch channels")
+	_check(snapshot.move == Vector2.ZERO, "focus loss left movement input active")
+	_check(not snapshot.sprint_held, "focus loss left sprint held")
+	_check(not snapshot.jump_pressed, "focus loss left a queued jump")
+	_check(not snapshot.burst_pressed, "focus loss left a queued burst")
+	if not _failed:
+		_pass("interrupted_touch", "focus loss clears move+look+actions")
 
 
 func _test_camera_limits_and_recenter() -> void:
