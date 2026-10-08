@@ -53,6 +53,8 @@ Contextual actions use movement direction, momentum, JUMP, wall angle, obstacle 
 
 Use Godot `4.6.3-stable`, open `project.godot`, and run the main scene. The pinned Android toolchain and exact commands are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
+The verification command checks the pinned Godot version, imports project metadata, and runs both milestone suites. It therefore works from a clean clone without first opening the editor.
+
 ```bash
 GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
 GODOT_BIN=/absolute/path/to/godot ./scripts/build_android_debug.sh
