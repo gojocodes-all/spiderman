@@ -1,5 +1,26 @@
 # Maintenance log
 
+## 2026-10-08 — Make project verification self-contained
+
+- **Rationale:** The documented verification command could fail on a clean clone
+  because Godot's generated class metadata did not exist until the editor import
+  ran. Hosted CI compensated with a separate import step, so local and hosted
+  validation had different entry-point contracts. The three documented shell
+  commands also lacked executable file modes after cloning.
+- **Files changed:** `scripts/verify_project.sh`, executable modes for
+  `scripts/build_android_debug.sh` and `scripts/verify_apk.sh`,
+  `test/verify-project-script.test.sh`, `test/fixtures/mock-godot.sh`,
+  `.github/workflows/validate.yml`, `README.md`, `DEVELOPMENT.md`, and
+  `.github/maintenance-log.md`.
+- **Validation performed:** Added dependency-free shell regression coverage for
+  the pinned-version gate, clean-clone import ordering, import failure handling,
+  and missing suite markers. Ran shell syntax checks, the wrapper tests, the
+  complete Milestone 1 and Milestone 2 Godot suites, and the hosted workflow.
+- **Risk level:** Low. Runtime game code, assets, tuning, exports, and Android
+  packaging are unchanged; only the developer verification path is affected.
+- **Rollback:** Revert the pull request's squash commit to restore the separate
+  CI import step and the previous local wrapper behavior.
+
 ## 2026-09-29 — Clear touch input when the app loses focus
 
 - **Rationale:** Android interruptions can remove application focus without
