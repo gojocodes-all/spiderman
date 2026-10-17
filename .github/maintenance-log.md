@@ -1,5 +1,27 @@
 # Maintenance log
 
+## 2026-10-17 — Document the contributor workflow
+
+- **Rationale:** The repository documented its engine, Android toolchain,
+  architecture, validation, assets, original-IP boundary, and known issues, but
+  contributors had no single workflow connecting those records to change
+  preparation and pull-request review.
+- **Files changed:** `CONTRIBUTING.md` documents the current milestone scope,
+  setup, module boundaries, validation levels, asset and security rules, and
+  pull-request checklist; `README.md` links the guide; and
+  `.github/maintenance-log.md` records this work.
+- **Validation performed:** Cross-checked the guide against `DEVELOPMENT.md`,
+  `docs/ARCHITECTURE.md`, `docs/TEST_PLAN.md`, `KNOWN_ISSUES.md`,
+  `ASSETS.md`, the three validation scripts, `project.godot`, and the hosted
+  workflow; verified every new relative link and command path; reviewed the
+  complete documentation diff for accuracy, original-IP guidance, security,
+  compatibility, and repository conventions.
+- **Risk level:** Low. Documentation only; game code, assets, tuning, tests,
+  dependencies, Android configuration, build artifacts, and runtime behavior
+  are unchanged.
+- **Rollback:** Revert this pull request's squash commit to remove the guide,
+  README link, and maintenance entry without affecting the project.
+
 ## 2026-10-08 — Make project verification self-contained
 
 - **Rationale:** The documented verification command could fail on a clean clone
