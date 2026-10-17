@@ -64,6 +64,7 @@ ANDROID_SDK_ROOT=/absolute/path/to/android-sdk \
 
 Project records:
 
+- [Contributing workflow](CONTRIBUTING.md)
 - [Milestone 2 acceptance](docs/M2_ACCEPTANCE.md)
 - [Development and tuning](DEVELOPMENT.md)
 - [Architecture](docs/ARCHITECTURE.md)
