@@ -3,30 +3,12 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GODOT_BIN="${GODOT_BIN:-godot}"
-PINNED_GODOT_VERSION="4.6.3"
+source "$PROJECT_ROOT/scripts/lib/godot-toolchain.sh"
 
-if ! command -v "$GODOT_BIN" >/dev/null 2>&1; then
-	printf 'Godot executable not found: %s\n' "$GODOT_BIN" >&2
-	printf 'Set GODOT_BIN to the Godot 4.6.3 executable.\n' >&2
-	exit 2
-fi
-
-if ! godot_version="$("$GODOT_BIN" --version 2>&1)"; then
-	printf 'Unable to read the Godot version from: %s\n' "$GODOT_BIN" >&2
-	exit 2
-fi
-
-case "$godot_version" in
-	"$PINNED_GODOT_VERSION"|"$PINNED_GODOT_VERSION".*) ;;
-	*)
-		printf 'Unsupported Godot version: %s\n' "$godot_version" >&2
-		printf 'Install Godot %s or set GODOT_BIN to that executable.\n' "$PINNED_GODOT_VERSION" >&2
-		exit 2
-		;;
-esac
+require_pinned_godot "$GODOT_BIN"
 
 import_project() {
-	printf '[VERIFY] Importing project metadata with Godot %s.\n' "$godot_version"
+	printf '[VERIFY] Importing project metadata with Godot %s.\n' "$GODOT_VERSION_OUTPUT"
 	if "$GODOT_BIN" --headless --editor --quit --path "$PROJECT_ROOT"; then
 		return 0
 	else

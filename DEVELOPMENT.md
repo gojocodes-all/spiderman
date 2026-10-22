@@ -90,7 +90,11 @@ The verifier requires the pinned Godot `4.6.3` release, imports project metadata
 GODOT_BIN=/absolute/path/to/godot ./scripts/build_android_debug.sh
 ```
 
-Godot's Android editor settings must already point to a valid SDK and JDK. Signing credentials are not stored in this repository. Godot may create or use a local debug keystore.
+The build wrapper applies the same Godot 4.6.3 version gate as the project
+verifier before it creates the output directory, imports the project, or starts
+the export. Godot's Android editor settings must already point to a valid SDK
+and JDK. Signing credentials are not stored in this repository. Godot may
+create or use a local debug keystore.
 
 ## Verify an APK
 

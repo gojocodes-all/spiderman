@@ -15,6 +15,11 @@ if [[ " $* " == *" --editor "* ]]; then
 	exit "${MOCK_GODOT_IMPORT_STATUS:-0}"
 fi
 
+if [[ " $* " == *" --export-debug "* ]]; then
+	printf '[MOCK] Android debug export\n'
+	exit "${MOCK_GODOT_EXPORT_STATUS:-0}"
+fi
+
 case "${AV_TEST_SUITE:-}" in
 	m1)
 		if [[ "${MOCK_GODOT_M1_MARKER:-1}" == "1" ]]; then

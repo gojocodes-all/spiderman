@@ -5,12 +5,9 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GODOT_BIN="${GODOT_BIN:-godot}"
 DEFAULT_OUTPUT="$PROJECT_ROOT/build/android/aerial-vanguard-m2-debug.apk"
 OUTPUT_PATH="${1:-$DEFAULT_OUTPUT}"
+source "$PROJECT_ROOT/scripts/lib/godot-toolchain.sh"
 
-if ! command -v "$GODOT_BIN" >/dev/null 2>&1; then
-	printf 'Godot executable not found: %s\n' "$GODOT_BIN" >&2
-	printf 'Set GODOT_BIN to the Godot 4.6.3 executable.\n' >&2
-	exit 2
-fi
+require_pinned_godot "$GODOT_BIN"
 
 if [[ "$OUTPUT_PATH" != /* ]]; then
 	OUTPUT_PATH="$PROJECT_ROOT/$OUTPUT_PATH"
@@ -18,6 +15,7 @@ fi
 
 mkdir -p "$(dirname "$OUTPUT_PATH")"
 
+printf '[BUILD] Using Godot %s.\n' "$GODOT_VERSION_OUTPUT"
 "$GODOT_BIN" --headless --editor --path "$PROJECT_ROOT" --quit
 "$GODOT_BIN" --headless --path "$PROJECT_ROOT" \
 	--export-debug 'Android Debug' "$OUTPUT_PATH"

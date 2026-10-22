@@ -1,5 +1,26 @@
 # Maintenance log
 
+## 2026-10-22 — Enforce the pinned engine for Android builds
+
+- **Rationale:** Project verification rejected unsupported Godot versions, but
+  the Android build wrapper only checked that an executable existed. A local
+  build could therefore import and export the pinned project with a different
+  engine despite the repository's documented toolchain contract.
+- **Files changed:** `scripts/lib/godot-toolchain.sh` centralizes executable and
+  version validation; both project verification and Android builds use it;
+  `test/build-android-script.test.sh` and the mock fixture cover build ordering,
+  wrong-version rejection, and failure propagation; hosted CI runs both wrapper
+  suites; `README.md` and `DEVELOPMENT.md` document the shared gate.
+- **Validation performed:** Ran shell syntax checks, the four project-verifier
+  wrapper cases, the four Android-build wrapper cases, the complete Godot
+  Milestone 1 and Milestone 2 suites, and reviewed the full diff for shell
+  safety, CI permissions, Android build compatibility, and repository scope.
+- **Risk level:** Low. Gameplay, tuning, scenes, assets, export settings, Android
+  metadata, and the supported 4.6.3 build path are unchanged. Builds now stop
+  before creating output when the engine is missing, unreadable, or unsupported.
+- **Rollback:** Revert this pull request's squash commit to restore the separate
+  verifier-only version check and the previous build-wrapper behavior.
+
 ## 2026-10-17 — Document the contributor workflow
 
 - **Rationale:** The repository documented its engine, Android toolchain,
