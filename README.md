@@ -62,6 +62,9 @@ ANDROID_SDK_ROOT=/absolute/path/to/android-sdk \
   ./scripts/verify_apk.sh releases/milestone-2/aerial-vanguard-relay-m2-debug.apk
 ```
 
+The project verifier and Android build wrapper both reject Godot versions other
+than the pinned 4.6.3 release before importing or exporting the project.
+
 Project records:
 
 - [Contributing workflow](CONTRIBUTING.md)
