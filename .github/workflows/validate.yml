@@ -45,14 +45,9 @@ jobs:
           unzip -q "$archive_path" -d "$install_dir"
           chmod +x "$install_dir/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
 
-      - name: Test command wrappers
-        run: |
-          ./test/verify-project-script.test.sh
-          ./test/build-android-script.test.sh
-
-      - name: Run project verification
+      - name: Validate repository
         shell: bash
         run: |
           set -euo pipefail
           GODOT_BIN="$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" \
-            ./scripts/verify_project.sh
+            ./scripts/validate.sh

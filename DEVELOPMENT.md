@@ -76,13 +76,31 @@ godot --path .
 
 Select a quality tier for local testing with `AV_QUALITY=low`, `medium`, `high`, or `ultra`.
 
-## Automated gameplay and movement test
+## Complete automated validation
+
+```bash
+GODOT_BIN=/absolute/path/to/godot ./scripts/validate.sh
+```
+
+The validation entry point checks shell syntax, runs the project-verifier and
+Android-build wrapper regression suites, and then invokes the real-engine
+project verifier. The verifier requires the pinned Godot `4.6.3` release,
+imports project metadata itself, then runs the preserved Milestone 1 suite
+followed by the Milestone 2 suite in a fresh process. This makes the documented
+command the same complete clean-clone entry point used by CI. M1 covers reusable
+input, movement bands, 30/60 Hz consistency, jumps, landings, slopes/stairs/steps,
+camera collision, aspect layouts, simultaneous touch, and the M0
+movement/JUMP/BURST regression. M2 covers traversal architecture, valid/invalid
+surface detection, blocked destinations, horizontal and vertical wall traversal,
+wall jump, limits and recovery, vault, mantle, ledge grab/climb/drop/jump-away,
+momentum, camera readability, debug visualization, and multitouch. A valid run
+ends with both milestone smoke markers.
+
+For a focused gameplay-only rerun after the shell checks have passed:
 
 ```bash
 GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
 ```
-
-The verifier requires the pinned Godot `4.6.3` release, imports project metadata itself, then runs the preserved Milestone 1 suite followed by the Milestone 2 suite in a fresh process. This makes the documented command the same clean-clone entry point used by CI. M1 covers reusable input, movement bands, 30/60 Hz consistency, jumps, landings, slopes/stairs/steps, camera collision, aspect layouts, simultaneous touch, and the M0 movement/JUMP/BURST regression. M2 covers traversal architecture, valid/invalid surface detection, blocked destinations, horizontal and vertical wall traversal, wall jump, limits and recovery, vault, mantle, ledge grab/climb/drop/jump-away, momentum, camera readability, debug visualization, and multitouch. A valid run ends with both milestone smoke markers.
 
 ## Build the debug APK
 
