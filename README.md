@@ -53,10 +53,15 @@ Contextual actions use movement direction, momentum, JUMP, wall angle, obstacle 
 
 Use Godot `4.6.3-stable`, open `project.godot`, and run the main scene. The pinned Android toolchain and exact commands are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
-The verification command checks the pinned Godot version, imports project metadata, and runs both milestone suites. It therefore works from a clean clone without first opening the editor.
+The complete validation command checks every shell script, runs both command-wrapper regression suites, verifies the pinned Godot version, imports project metadata, and runs both milestone suites. It is the same clean-clone entry point used by CI.
 
 ```bash
-GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
+GODOT_BIN=/absolute/path/to/godot ./scripts/validate.sh
+```
+
+Android packaging remains an explicit additional gate because it requires a configured SDK, matching export templates, and an APK:
+
+```bash
 GODOT_BIN=/absolute/path/to/godot ./scripts/build_android_debug.sh
 ANDROID_SDK_ROOT=/absolute/path/to/android-sdk \
   ./scripts/verify_apk.sh releases/milestone-2/aerial-vanguard-relay-m2-debug.apk

@@ -1,5 +1,13 @@
 # Maintenance log
 
+## 2026-10-31 — Unify local and hosted project validation
+
+- **Rationale:** Hosted validation ran the two command-wrapper regression suites and the real Godot milestone suites as separate workflow steps, while contributor documentation exposed only the gameplay verifier. That made the complete repository gate easy to miss locally and allowed CI orchestration to drift from documented commands. A single executable entry point now owns shell syntax checks, both wrapper suites, and real-engine project verification.
+- **Files changed:** `scripts/validate.sh`, `.github/workflows/validate.yml`, `README.md`, `CONTRIBUTING.md`, `DEVELOPMENT.md`, and `.github/maintenance-log.md`.
+- **Validation performed:** Ran shell syntax checks across every script, both four-case wrapper regression suites, and the complete pinned-Godot Milestone 1 and Milestone 2 suites through `scripts/validate.sh`; reviewed the workflow and documentation against the repository's pinned toolchain and existing validation commands.
+- **Risk level:** Low. This centralizes existing checks without changing gameplay, scenes, tuning, assets, dependencies, export settings, Android metadata, or test expectations.
+- **Rollback:** Revert this pull request to restore the two separate CI steps and previous contributor commands. The underlying wrapper tests and project verifier remain unchanged.
+
 ## 2026-10-22 — Enforce the pinned engine for Android builds
 
 - **Rationale:** Project verification rejected unsupported Godot versions, but

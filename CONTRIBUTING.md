@@ -55,15 +55,16 @@ paths.
 
 ## Validate the change
 
-Run the clean-clone-compatible milestone gate for gameplay, scene, input,
-tuning, or project-configuration changes:
+Run the complete clean-clone-compatible gate for shell tooling, gameplay,
+scene, input, tuning, or project-configuration changes:
 
 ```bash
-GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
+GODOT_BIN=/absolute/path/to/godot ./scripts/validate.sh
 ```
 
-A successful run must include both milestone pass markers. GitHub Actions runs
-the same wrapper on pull requests and updates to `main`.
+A successful run must pass shell syntax checks, both command-wrapper regression
+suites, and both milestone pass markers. GitHub Actions runs the same entry
+point on pull requests and updates to `main`.
 
 If the change affects Android packaging, also build and verify the debug APK:
 
