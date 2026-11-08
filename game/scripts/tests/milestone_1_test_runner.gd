@@ -387,16 +387,30 @@ func _test_aspect_ratio_layouts() -> void:
 	]
 	for viewport_size in view_sizes:
 		var layout := _overlay.debug_layout_snapshot(viewport_size)
-		var move_center: Vector2 = layout["move_center"]
-		var move_radius: float = layout["move_radius"]
-		var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
-		for key in [&"jump", &"sprint", &"burst"]:
-			var button_rect: Rect2 = layout[key]
-			_check(button_rect.position.x >= 0.0 and button_rect.position.y >= 0.0, "%s button escaped the %s layout" % [key, viewport_size])
-			_check(button_rect.end.x <= viewport_size.x and button_rect.end.y <= viewport_size.y, "%s button exceeded the %s layout" % [key, viewport_size])
-			_check(not move_bounds.intersects(button_rect), "%s button overlaps the movement joystick at %s" % [key, viewport_size])
+		_assert_touch_layout(layout, viewport_size)
+	var cutout_viewport := Vector2(2400.0, 1080.0)
+	var cutout_safe_rect := Rect2(Vector2(96.0, 48.0), Vector2(2208.0, 984.0))
+	var cutout_layout := _overlay.debug_layout_snapshot(cutout_viewport, cutout_safe_rect)
+	_assert_touch_layout(cutout_layout, cutout_viewport)
+	var move_center: Vector2 = cutout_layout["move_center"]
+	var move_radius: float = cutout_layout["move_radius"]
+	var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
+	_check(cutout_safe_rect.encloses(move_bounds), "movement joystick escaped the display safe area")
+	for key in [&"jump", &"sprint", &"burst"]:
+		_check(cutout_safe_rect.encloses(cutout_layout[key]), "%s button escaped the display safe area" % key)
 	if not _failed:
-		_pass("aspect_ratios", "16:9 20:9 19.5:9 16:10 4:3")
+		_pass("aspect_ratios", "16:9 20:9 19.5:9 16:10 4:3 cutout_safe_area")
+
+
+func _assert_touch_layout(layout: Dictionary, viewport_size: Vector2) -> void:
+	var move_center: Vector2 = layout["move_center"]
+	var move_radius: float = layout["move_radius"]
+	var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
+	for key in [&"jump", &"sprint", &"burst"]:
+		var button_rect: Rect2 = layout[key]
+		_check(button_rect.position.x >= 0.0 and button_rect.position.y >= 0.0, "%s button escaped the %s layout" % [key, viewport_size])
+		_check(button_rect.end.x <= viewport_size.x and button_rect.end.y <= viewport_size.y, "%s button exceeded the %s layout" % [key, viewport_size])
+		_check(not move_bounds.intersects(button_rect), "%s button overlaps the movement joystick at %s" % [key, viewport_size])
 
 
 func _test_simultaneous_touch_channels() -> void:
