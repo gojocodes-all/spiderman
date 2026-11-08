@@ -1,5 +1,13 @@
 # Maintenance log
 
+## 2026-11-08 — Keep touch controls inside display safe areas
+
+- **Rationale:** The movement joystick and JUMP, BURST, and SPRINT buttons were positioned against the raw viewport edges. On Android devices with cutouts or reserved system UI, interactive controls could therefore be obscured or difficult to reach.
+- **Files changed:** `game/scripts/ui/touch_input_overlay.gd` maps the platform safe area into the stretched game viewport and lays out interactive controls inside it; `game/scripts/tests/milestone_1_test_runner.gd` adds deterministic cutout regression coverage; `KNOWN_ISSUES.md` narrows the remaining device-validation boundary; and `.github/maintenance-log.md` records this work.
+- **Validation performed:** Downloaded and checksum-verified the pinned Godot 4.6.3 release, then ran `./scripts/validate.sh`: shell syntax checks, both four-case command-wrapper regression suites, project import, the complete Milestone 1 suite including the new cutout-safe-area assertion, and the complete Milestone 2 suite all passed. Also ran `git diff --check` and reviewed the complete diff.
+- **Risk level:** Low. Gameplay input semantics, movement, camera behavior, traversal tuning, scenes, dependencies, export settings, and ordinary full-viewport layouts are unchanged. Only touch-control positions move inward when the platform reports an obstructed display area.
+- **Rollback:** Revert this pull request's squash commit to restore viewport-edge control placement; no save data, API, asset, dependency, or Android metadata rollback is required.
+
 ## 2026-10-31 — Unify local and hosted project validation
 
 - **Rationale:** Hosted validation ran the two command-wrapper regression suites and the real Godot milestone suites as separate workflow steps, while contributor documentation exposed only the gameplay verifier. That made the complete repository gate easy to miss locally and allowed CI orchestration to drift from documented commands. A single executable entry point now owns shell syntax checks, both wrapper suites, and real-engine project verification.

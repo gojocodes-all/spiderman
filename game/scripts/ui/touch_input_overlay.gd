@@ -13,6 +13,7 @@ var _joystick_radius := 76.0
 var _jump_button: Button
 var _sprint_button: Button
 var _burst_button: Button
+var _safe_rect := Rect2()
 
 
 func _ready() -> void:
@@ -20,7 +21,7 @@ func _ready() -> void:
 	resized.connect(_on_resized)
 	_create_hud()
 	_create_action_buttons()
-	_reset_move_origin()
+	_apply_safe_area_layout()
 	queue_redraw()
 
 
@@ -175,13 +176,49 @@ func _point_over_action_buttons(point: Vector2) -> bool:
 
 func _on_resized() -> void:
 	_joystick_radius = clampf(minf(size.x, size.y) * 0.105, 62.0, 92.0)
-	if _move_touch_id == -1:
-		_reset_move_origin()
+	_apply_safe_area_layout()
 	queue_redraw()
 
 
 func _reset_move_origin() -> void:
-	_move_origin = Vector2(size.x * 0.15, size.y * 0.76)
+	var safe_rect := _safe_rect if _safe_rect.size.x > 0.0 and _safe_rect.size.y > 0.0 else Rect2(Vector2.ZERO, size)
+	_move_origin = safe_rect.position + safe_rect.size * Vector2(0.15, 0.76)
+
+
+func _apply_safe_area_layout() -> void:
+	_safe_rect = _display_safe_rect(size)
+	var safe_end_offset := _safe_rect.end - size
+	_set_action_button_offsets(_jump_button, Vector2(-142.0, -126.0) + safe_end_offset, Vector2(-28.0, -70.0) + safe_end_offset)
+	_set_action_button_offsets(_burst_button, Vector2(-268.0, -90.0) + safe_end_offset, Vector2(-158.0, -38.0) + safe_end_offset)
+	_set_action_button_offsets(_sprint_button, Vector2(-390.0, -90.0) + safe_end_offset, Vector2(-280.0, -38.0) + safe_end_offset)
+	if _move_touch_id == -1:
+		_reset_move_origin()
+
+
+func _set_action_button_offsets(button: Button, offset_a: Vector2, offset_b: Vector2) -> void:
+	if not button:
+		return
+	button.offset_left = offset_a.x
+	button.offset_top = offset_a.y
+	button.offset_right = offset_b.x
+	button.offset_bottom = offset_b.y
+
+
+func _display_safe_rect(viewport_size: Vector2) -> Rect2:
+	if OS.get_name() not in ["Android", "iOS"]:
+		return Rect2(Vector2.ZERO, viewport_size)
+	var display_size := Vector2(DisplayServer.screen_get_size(DisplayServer.SCREEN_OF_MAIN_WINDOW))
+	if display_size.x <= 0.0 or display_size.y <= 0.0:
+		return Rect2(Vector2.ZERO, viewport_size)
+	var display_safe_area := DisplayServer.get_display_safe_area()
+	if display_safe_area.size.x <= 0 or display_safe_area.size.y <= 0:
+		return Rect2(Vector2.ZERO, viewport_size)
+	var scale := viewport_size / display_size
+	var safe_position := Vector2(display_safe_area.position) * scale
+	var safe_size := Vector2(display_safe_area.size) * scale
+	var safe_end := (safe_position + safe_size).min(viewport_size)
+	safe_position = safe_position.max(Vector2.ZERO)
+	return Rect2(safe_position, (safe_end - safe_position).max(Vector2.ZERO))
 
 
 func _release_touch_input() -> void:
@@ -195,13 +232,17 @@ func _release_touch_input() -> void:
 		queue_redraw()
 
 
-func debug_layout_snapshot(viewport_size: Vector2) -> Dictionary:
+func debug_layout_snapshot(viewport_size: Vector2, safe_rect := Rect2()) -> Dictionary:
+	if safe_rect.size.x <= 0.0 or safe_rect.size.y <= 0.0:
+		safe_rect = Rect2(Vector2.ZERO, viewport_size)
+	var safe_end := safe_rect.end
 	return {
-		"move_center": Vector2(viewport_size.x * 0.15, viewport_size.y * 0.76),
+		"safe_rect": safe_rect,
+		"move_center": safe_rect.position + safe_rect.size * Vector2(0.15, 0.76),
 		"move_radius": clampf(minf(viewport_size.x, viewport_size.y) * 0.105, 62.0, 92.0),
-		"jump": Rect2(viewport_size + Vector2(-142.0, -126.0), Vector2(114.0, 56.0)),
-		"burst": Rect2(viewport_size + Vector2(-268.0, -90.0), Vector2(110.0, 52.0)),
-		"sprint": Rect2(viewport_size + Vector2(-390.0, -90.0), Vector2(110.0, 52.0)),
+		"jump": Rect2(safe_end + Vector2(-142.0, -126.0), Vector2(114.0, 56.0)),
+		"burst": Rect2(safe_end + Vector2(-268.0, -90.0), Vector2(110.0, 52.0)),
+		"sprint": Rect2(safe_end + Vector2(-390.0, -90.0), Vector2(110.0, 52.0)),
 	}
 
 

@@ -30,7 +30,7 @@ Last verified: 2026-08-18
 - The temporary BURST control remains for Milestone 0 regression testing; it is not the planned swinging system.
 - Tether/swing, dive, aerial tricks, melee, aerial combat, enemies, missions, progression, customization, AI, crowds, traffic, audio, weather, interiors, and streaming are not implemented. Milestone 2 wall running, finite climbing, wall jumping, vaulting, mantling, and ledge traversal are implemented as graybox systems.
 - The movement laboratory and avatar are procedural/primitives-only blockouts. They do not represent the production visual target.
-- Touch control sizing, palm rejection, gesture conflicts, safe areas, accessibility, haptics, and latency need real-device tests.
+- Touch control sizing, palm rejection, gesture conflicts, accessibility, haptics, and latency need real-device tests. Safe-area placement has deterministic coverage, but physical cutout and system-gesture behavior still needs device inspection.
 - Camera collision passed deterministic solid-wall tests, but thin geometry, very low ceilings, rapidly alternating obstructions, and device-specific aspect/safe-area behavior still need hands-on review.
 - Milestone 2 uses authored traversal tags and currently accepts stable `StaticBody3D` geometry only. Untagged city geometry, moving platforms, dynamic bodies, separate facade/roof colliders, deeply concave tops, and production curved architecture need an explicit authoring contract before use.
 - Wall and ledge transitions use original procedural pose lean and collision-safe motion paths, not production skeletal animations, IK, hand placement, root motion, effects, audio, or haptics. Visual contact will look approximate on the primitive avatar.
