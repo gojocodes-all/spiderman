@@ -15,6 +15,6 @@
 
 The user later reported that M1 loaded on a physical Android device, the implemented work was visibly present, and the milestone passed. This is limited user-reported physical validation; no detailed action matrix, phone/OS details, or performance data were supplied.
 
-The canonical public download location is the [Milestone 1 GitHub release](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-1). Attach or download `aerial-vanguard-relay-m1-debug.apk` there and verify it against [`SHA256SUMS.txt`](SHA256SUMS.txt).
+The [Milestone 1 GitHub release](https://github.com/gojocodes-all/spiderman/releases/tag/milestone-1) currently preserves the source checkpoint and release notes but has no attached APK. The binary is also not tracked in this directory; only its verification record and [`SHA256SUMS.txt`](SHA256SUMS.txt) remain here. To publish the verified local artifact, attach `aerial-vanguard-relay-m1-debug.apk` to that release with a file-capable client, then verify the uploaded file against the checksum.
 
 See [`docs/M1_ACCEPTANCE.md`](../../docs/M1_ACCEPTANCE.md) for the full automated/package evidence and explicit limits.
