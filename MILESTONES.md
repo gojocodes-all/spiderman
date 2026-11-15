@@ -15,6 +15,13 @@ Never overwrite an accepted milestone APK. Increase `versionCode`, create a new 
 
 GitHub release assets are the canonical public APK download channel. Source, checksums, acceptance evidence, and release metadata stay versioned in the repository; the APK must never be encoded as Base64 for transport.
 
+Current distribution exception: the M1 and M2 source tags, release pages,
+checksums, and acceptance evidence are published, but their APK binaries are
+not tracked in the repository and are not attached to the GitHub releases. The
+paths recorded below identify the verified build-time artifacts, not files that
+can currently be downloaded from this tree. Both binaries still require normal
+file uploads to their matching release pages.
+
 ## M0 — Foundation and Android package smoke test
 
 Status: **accepted; limited user-reported physical-device validation recorded**
@@ -49,7 +56,7 @@ Delivered:
 - deterministic 30/60 Hz and scene-integration acceptance suite;
 - version-code 2, API 36, arm64 debug APK with signature/alignment/archive verification.
 
-- Artifact: `releases/milestone-1/aerial-vanguard-relay-m1-debug.apk`
+- Recorded artifact path (binary not currently tracked): `releases/milestone-1/aerial-vanguard-relay-m1-debug.apk`
 - Size: 27,808,805 bytes
 - SHA-256: `73653e3e92ac759c019b2d8ab34643827e6881044b28a220af3d6a529bc1f58b`
 
@@ -75,7 +82,7 @@ Delivered:
 - expanded 85-feature/32-marker laboratory with 26 parkour-specific features, several routes, corners, parallel walls, dead ends, gaps, blocked mantles, tiny geometry, and explicit invalid surfaces;
 - separate M1 regression and M2 acceptance processes covering detection, invalid/blocked rejection, wall entry/exit/jump, vertical limits, slow/high-speed cases, anti-chain rules, vault/mantle/ledge actions, momentum, recovery, camera, debug toggle, and multitouch.
 
-- Artifact: `releases/milestone-2/aerial-vanguard-relay-m2-debug.apk`
+- Recorded artifact path (binary not currently tracked): `releases/milestone-2/aerial-vanguard-relay-m2-debug.apk`
 - Size: 27,880,145 bytes
 - SHA-256: `e10051e2992009b867ba5a49a8410861c5de4c734f38a5c85f91ba377013bd7d`
 - Package result: version code 3 / `0.2.0-m2`, API 24–36, arm64, v2/v3 signed, 16 KB ZIP aligned, `0x4000` native LOAD aligned, clean archive, no requested permissions reported.

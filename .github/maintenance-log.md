@@ -1,5 +1,30 @@
 # Maintenance log
 
+## 2026-11-15 — Clarify milestone APK availability
+
+- **Rationale:** The README described the Milestone 2 release as a public APK
+  download and the milestone records referred to M1/M2 binaries as stored in
+  their release directories. The current tree contains only their checksums and
+  documentation, and both GitHub release pages have zero attached assets. The
+  development and known-issues guides already recorded the pending upload, so
+  the public-facing records contradicted the actual distribution state.
+- **Files changed:** `README.md`, `MILESTONES.md`, the M1/M2 release guides,
+  both acceptance reports, and `KNOWN_ISSUES.md` now distinguish preserved
+  source/release records from downloadable APK assets; this log records the
+  correction.
+- **Validation performed:** Inspected the complete tracked tree; confirmed the
+  M1/M2 directories contain only `README.md` and `SHA256SUMS.txt`; queried both
+  published GitHub releases on 2026-11-15 and confirmed each has an empty asset
+  list; verified changed relative links and retained checksums; ran shell syntax
+  checks, both command-wrapper regression suites, and `git diff --check`;
+  reviewed the complete diff for factual accuracy, security, original-IP scope,
+  backward compatibility, and repository conventions.
+- **Risk level:** Low. Documentation only. Source, gameplay, tests, checksums,
+  release tags, release pages, binaries, build tooling, and distribution state
+  are unchanged.
+- **Rollback:** Revert this pull request to restore the previous release wording;
+  no application, artifact, dependency, or deployment rollback is required.
+
 ## 2026-11-08 — Keep touch controls inside display safe areas
 
 - **Rationale:** The movement joystick and JUMP, BURST, and SPRINT buttons were positioned against the raw viewport edges. On Android devices with cutouts or reserved system UI, interactive controls could therefore be obscured or difficult to reach.
