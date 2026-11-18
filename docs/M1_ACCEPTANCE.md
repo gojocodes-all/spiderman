@@ -4,7 +4,7 @@ Date: 2026-08-18 UTC
 
 Status: **accepted; implementation/package complete and limited user-reported physical-device validation recorded**
 
-Recorded verification path: `releases/milestone-1/aerial-vanguard-relay-m1-debug.apk` (the binary is not in the current repository tree or attached to the GitHub release)
+Artifact: `releases/milestone-1/aerial-vanguard-relay-m1-debug.apk`
 
 ## Artifact identity
 

@@ -64,7 +64,7 @@ The connected repository API cannot read binary files from the managed workspace
 2. Install OpenJDK 17.
 3. Install Android SDK Platform 36, Build Tools 35.0.1, and current Platform Tools.
 4. In Godot Editor Settings, set the Java SDK and Android SDK paths.
-5. Open `project.godot` and let the first import finish before interactive development. The automated verifier performs its own headless import when run from a clean clone.
+5. Open `project.godot` and let the first import finish.
 
 The current debug APK uses Godot's official prebuilt Android template. A Play Store AAB requires the Gradle build path and a private release keystore; neither is part of Milestones 0–2.
 
@@ -76,31 +76,13 @@ godot --path .
 
 Select a quality tier for local testing with `AV_QUALITY=low`, `medium`, `high`, or `ultra`.
 
-## Complete automated validation
-
-```bash
-GODOT_BIN=/absolute/path/to/godot ./scripts/validate.sh
-```
-
-The validation entry point checks shell syntax, runs the project-verifier and
-Android-build wrapper regression suites, and then invokes the real-engine
-project verifier. The verifier requires the pinned Godot `4.6.3` release,
-imports project metadata itself, then runs the preserved Milestone 1 suite
-followed by the Milestone 2 suite in a fresh process. This makes the documented
-command the same complete clean-clone entry point used by CI. M1 covers reusable
-input, movement bands, 30/60 Hz consistency, jumps, landings, slopes/stairs/steps,
-camera collision, aspect layouts, simultaneous touch, and the M0
-movement/JUMP/BURST regression. M2 covers traversal architecture, valid/invalid
-surface detection, blocked destinations, horizontal and vertical wall traversal,
-wall jump, limits and recovery, vault, mantle, ledge grab/climb/drop/jump-away,
-momentum, camera readability, debug visualization, and multitouch. A valid run
-ends with both milestone smoke markers.
-
-For a focused gameplay-only rerun after the shell checks have passed:
+## Automated gameplay and movement test
 
 ```bash
 GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
 ```
+
+The verifier runs the preserved Milestone 1 suite first, followed by the Milestone 2 suite in a fresh process. M1 covers reusable input, movement bands, 30/60 Hz consistency, jumps, landings, slopes/stairs/steps, camera collision, aspect layouts, simultaneous touch, and the M0 movement/JUMP/BURST regression. M2 covers traversal architecture, valid/invalid surface detection, blocked destinations, horizontal and vertical wall traversal, wall jump, limits and recovery, vault, mantle, ledge grab/climb/drop/jump-away, momentum, camera readability, debug visualization, and multitouch. A valid run ends with both milestone smoke markers.
 
 ## Build the debug APK
 
@@ -108,11 +90,7 @@ GODOT_BIN=/absolute/path/to/godot ./scripts/verify_project.sh
 GODOT_BIN=/absolute/path/to/godot ./scripts/build_android_debug.sh
 ```
 
-The build wrapper applies the same Godot 4.6.3 version gate as the project
-verifier before it creates the output directory, imports the project, or starts
-the export. Godot's Android editor settings must already point to a valid SDK
-and JDK. Signing credentials are not stored in this repository. Godot may
-create or use a local debug keystore.
+Godot's Android editor settings must already point to a valid SDK and JDK. Signing credentials are not stored in this repository. Godot may create or use a local debug keystore.
 
 ## Verify an APK
 

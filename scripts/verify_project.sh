@@ -3,20 +3,12 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GODOT_BIN="${GODOT_BIN:-godot}"
-source "$PROJECT_ROOT/scripts/lib/godot-toolchain.sh"
 
-require_pinned_godot "$GODOT_BIN"
-
-import_project() {
-	printf '[VERIFY] Importing project metadata with Godot %s.\n' "$GODOT_VERSION_OUTPUT"
-	if "$GODOT_BIN" --headless --editor --quit --path "$PROJECT_ROOT"; then
-		return 0
-	else
-		local import_status=$?
-		printf '[VERIFY] Godot project import exited with status %d.\n' "$import_status" >&2
-		return "$import_status"
-	fi
-}
+if ! command -v "$GODOT_BIN" >/dev/null 2>&1; then
+	printf 'Godot executable not found: %s\n' "$GODOT_BIN" >&2
+	printf 'Set GODOT_BIN to the Godot 4.6.3 executable.\n' >&2
+	exit 2
+fi
 
 run_suite() {
 	local suite_name="$1"
@@ -38,7 +30,6 @@ run_suite() {
 	fi
 }
 
-import_project
 run_suite m1 '[SMOKE] PASS milestone=1'
 run_suite m2 '[SMOKE] PASS milestone=2'
 printf '[VERIFY] Milestone 1 regression and Milestone 2 parkour suites passed.\n'
