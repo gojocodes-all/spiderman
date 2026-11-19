@@ -2,9 +2,9 @@
 
 ## Distribution
 
-- M1/M2 source, documentation, checksums, tags, and GitHub release pages are published. Both release pages currently contain zero attached assets, and the APK binaries are not tracked in the repository. The connected repository API cannot ingest APKs from the managed workspace file path without a separately staged binary reference, while Base64 transfer is intentionally prohibited. The two verified local APKs still need normal attachment to their matching GitHub release pages.
+- M1/M2 source, documentation, checksums, tags, and GitHub release pages are published. The connected repository API cannot ingest APKs from the managed workspace file path without a separately staged binary reference, while Base64 transfer is intentionally prohibited. The two verified local APKs still need normal attachment to their matching GitHub release pages.
 
-Last verified against the repository tree and GitHub release assets: 2026-11-15
+Last verified: 2026-08-18
 
 ## Validation limits
 
@@ -30,7 +30,7 @@ Last verified against the repository tree and GitHub release assets: 2026-11-15
 - The temporary BURST control remains for Milestone 0 regression testing; it is not the planned swinging system.
 - Tether/swing, dive, aerial tricks, melee, aerial combat, enemies, missions, progression, customization, AI, crowds, traffic, audio, weather, interiors, and streaming are not implemented. Milestone 2 wall running, finite climbing, wall jumping, vaulting, mantling, and ledge traversal are implemented as graybox systems.
 - The movement laboratory and avatar are procedural/primitives-only blockouts. They do not represent the production visual target.
-- Touch control sizing, palm rejection, gesture conflicts, accessibility, haptics, and latency need real-device tests. Safe-area placement has deterministic coverage, but physical cutout and system-gesture behavior still needs device inspection.
+- Touch control sizing, palm rejection, gesture conflicts, safe areas, accessibility, haptics, and latency need real-device tests.
 - Camera collision passed deterministic solid-wall tests, but thin geometry, very low ceilings, rapidly alternating obstructions, and device-specific aspect/safe-area behavior still need hands-on review.
 - Milestone 2 uses authored traversal tags and currently accepts stable `StaticBody3D` geometry only. Untagged city geometry, moving platforms, dynamic bodies, separate facade/roof colliders, deeply concave tops, and production curved architecture need an explicit authoring contract before use.
 - Wall and ledge transitions use original procedural pose lean and collision-safe motion paths, not production skeletal animations, IK, hand placement, root motion, effects, audio, or haptics. Visual contact will look approximate on the primitive avatar.

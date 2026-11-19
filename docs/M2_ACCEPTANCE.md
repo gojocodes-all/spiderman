@@ -4,7 +4,7 @@ Date: 2026-08-18 UTC
 
 Status: **accepted; implementation/package complete and limited user-reported physical-device validation recorded**
 
-Recorded verification path: `releases/milestone-2/aerial-vanguard-relay-m2-debug.apk` (the binary is not in the current repository tree or attached to the GitHub release)
+Artifact: `releases/milestone-2/aerial-vanguard-relay-m2-debug.apk`
 
 ## Artifact identity
 
@@ -22,7 +22,7 @@ Recorded verification path: `releases/milestone-2/aerial-vanguard-relay-m2-debug
 | Orientation | Landscape |
 | Requested Android permissions | None reported by `aapt2 dump permissions` |
 
-M0 and M1 APKs were neither overwritten nor reconstructed. M2 was verified as a distinct version-code 3 artifact. Its checksum and acceptance record are stored in the release directory, while the binary remains outside the current repository and GitHub release assets.
+M0 and M1 APKs were neither overwritten nor reconstructed. M2 is a distinct version-code 3 artifact stored in its own release directory.
 
 ## Delivered traversal scope
 

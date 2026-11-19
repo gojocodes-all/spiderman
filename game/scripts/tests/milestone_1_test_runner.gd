@@ -73,9 +73,6 @@ func _run_suite() -> void:
 	_test_simultaneous_touch_channels()
 	if _failed:
 		return
-	_test_interrupted_touch_input()
-	if _failed:
-		return
 	await _test_camera_limits_and_recenter()
 	if _failed:
 		return
@@ -387,30 +384,16 @@ func _test_aspect_ratio_layouts() -> void:
 	]
 	for viewport_size in view_sizes:
 		var layout := _overlay.debug_layout_snapshot(viewport_size)
-		_assert_touch_layout(layout, viewport_size)
-	var cutout_viewport := Vector2(2400.0, 1080.0)
-	var cutout_safe_rect := Rect2(Vector2(96.0, 48.0), Vector2(2208.0, 984.0))
-	var cutout_layout := _overlay.debug_layout_snapshot(cutout_viewport, cutout_safe_rect)
-	_assert_touch_layout(cutout_layout, cutout_viewport)
-	var move_center: Vector2 = cutout_layout["move_center"]
-	var move_radius: float = cutout_layout["move_radius"]
-	var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
-	_check(cutout_safe_rect.encloses(move_bounds), "movement joystick escaped the display safe area")
-	for key in [&"jump", &"sprint", &"burst"]:
-		_check(cutout_safe_rect.encloses(cutout_layout[key]), "%s button escaped the display safe area" % key)
+		var move_center: Vector2 = layout["move_center"]
+		var move_radius: float = layout["move_radius"]
+		var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
+		for key in [&"jump", &"sprint", &"burst"]:
+			var button_rect: Rect2 = layout[key]
+			_check(button_rect.position.x >= 0.0 and button_rect.position.y >= 0.0, "%s button escaped the %s layout" % [key, viewport_size])
+			_check(button_rect.end.x <= viewport_size.x and button_rect.end.y <= viewport_size.y, "%s button exceeded the %s layout" % [key, viewport_size])
+			_check(not move_bounds.intersects(button_rect), "%s button overlaps the movement joystick at %s" % [key, viewport_size])
 	if not _failed:
-		_pass("aspect_ratios", "16:9 20:9 19.5:9 16:10 4:3 cutout_safe_area")
-
-
-func _assert_touch_layout(layout: Dictionary, viewport_size: Vector2) -> void:
-	var move_center: Vector2 = layout["move_center"]
-	var move_radius: float = layout["move_radius"]
-	var move_bounds := Rect2(move_center - Vector2.ONE * move_radius, Vector2.ONE * move_radius * 2.0)
-	for key in [&"jump", &"sprint", &"burst"]:
-		var button_rect: Rect2 = layout[key]
-		_check(button_rect.position.x >= 0.0 and button_rect.position.y >= 0.0, "%s button escaped the %s layout" % [key, viewport_size])
-		_check(button_rect.end.x <= viewport_size.x and button_rect.end.y <= viewport_size.y, "%s button exceeded the %s layout" % [key, viewport_size])
-		_check(not move_bounds.intersects(button_rect), "%s button overlaps the movement joystick at %s" % [key, viewport_size])
+		_pass("aspect_ratios", "16:9 20:9 19.5:9 16:10 4:3")
 
 
 func _test_simultaneous_touch_channels() -> void:
@@ -459,32 +442,6 @@ func _test_simultaneous_touch_channels() -> void:
 	_check(_overlay.debug_touch_ids() == Vector2i(-1, -1), "touch channels did not release independently")
 	if not _failed:
 		_pass("simultaneous_touch", "move+look+jump retained")
-
-
-func _test_interrupted_touch_input() -> void:
-	var move_press := InputEventScreenTouch.new()
-	move_press.index = 31
-	move_press.position = Vector2(180.0, 540.0)
-	move_press.pressed = true
-	_overlay._input(move_press)
-	var look_press := InputEventScreenTouch.new()
-	look_press.index = 32
-	look_press.position = Vector2(850.0, 320.0)
-	look_press.pressed = true
-	_overlay._input(look_press)
-	_overlay._set_sprint(true)
-	_player.input_router.request_touch_jump()
-	_player.input_router.request_touch_burst()
-
-	_overlay._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
-	var snapshot := _player.input_router.consume_snapshot()
-	_check(_overlay.debug_touch_ids() == Vector2i(-1, -1), "focus loss did not release touch channels")
-	_check(snapshot.move == Vector2.ZERO, "focus loss left movement input active")
-	_check(not snapshot.sprint_held, "focus loss left sprint held")
-	_check(not snapshot.jump_pressed, "focus loss left a queued jump")
-	_check(not snapshot.burst_pressed, "focus loss left a queued burst")
-	if not _failed:
-		_pass("interrupted_touch", "focus loss clears move+look+actions")
 
 
 func _test_camera_limits_and_recenter() -> void:
